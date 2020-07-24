@@ -1,0 +1,19 @@
+.post_username{
+    display: flex;
+    align-items: center;
+}
+.post_wrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid gray;
+    margin-bottom: 20px;
+    background: #1f1f1f;
+}
+.post-image{
+    max-width: 700px;
+    margin: 10px 0;
+}
+.post-username{
+    margin-left: 10px;
+}
