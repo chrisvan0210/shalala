@@ -9,11 +9,35 @@
     border: 1px solid gray;
     margin-bottom: 20px;
     background: #1f1f1f;
+    max-width: 700px;
 }
 .post-image{
-    max-width: 700px;
+    max-width: 100%;
     margin: 10px 0;
 }
 .post-username{
     margin-left: 10px;
+}
+.comment-form{
+    display: flex;
+    margin-top: 20px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.comment-input{
+    padding: 8px 10px;
+    flex: 1;
+    border: none;
+    border-radius: 0;
+}
+.comment-btn{
+    padding: 5px 15px;
+    color: black;
+    border: none;
+    border-radius: 0;
+    background-color: rgb(201, 201, 201);
+}
+.comment-input:focus,
+.comment-btn:focus{
+    outline: none;
 }

@@ -1,13 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import 'assets/css/post.css'
 import Avatar from '@material-ui/core/Avatar'
-import { db } from '../../firebase'
+import { db,auth } from '../../firebase'
 import firebase from 'firebase';
 
 
-function Post({user, username, imageUrl, caption, postId }) {
+function Post({username, imageUrl, caption, postId }) {
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
+    const [user,setUser] = useState(null)
+
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+          if (authUser) {
+            // user has logged in...
+            // console.log('authUser', authUser)
+            setUser(authUser.displayName)
+           
+          }
+          else {
+            // user has logged out...
+            setUser(null)
+          }
+        })
+      }, [username])
+    
 
     useEffect(() => {
         let unsubscribe;
@@ -22,9 +39,8 @@ function Post({user, username, imageUrl, caption, postId }) {
         }
         return () => {
             unsubscribe();
-        } 
+        }
     }, [postId])
-
 
     const postComment = (event) => {
         event.preventDefault();
@@ -38,6 +54,26 @@ function Post({user, username, imageUrl, caption, postId }) {
         })
         setComment('');
     }
+    const commentInput = (
+        <form className="comment-form">
+        <input type="text"
+            className="comment-input"
+            placeholder="Add a comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+        />
+        <button
+            className="comment-btn"
+            disabled={!comment}
+            type="button"
+            onClick={postComment}
+        >
+            Post
+        </button>
+    </form>
+
+    )
+  
     return (
         <div className="post_wrapper">
             {/* username */}
@@ -53,7 +89,7 @@ function Post({user, username, imageUrl, caption, postId }) {
             {/* data upload */}
             <img className="post-image" src={imageUrl} alt="" />
             {/* caption */}
-            <div className="post-captions"> <strong>{username}: </strong>{caption}</div>
+            <div className="post-captions">{caption}</div>
 
 
             <div>
@@ -64,24 +100,7 @@ function Post({user, username, imageUrl, caption, postId }) {
                 )
                 )}
             </div>
-
-            <form action="">
-                <input type="text"
-                    className="cment_input"
-                    placeholder="Add a comment..."
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                />
-                <button
-                    className="btn-cment"
-                    disabled={!comment}
-                    type="button"
-                    onClick={postComment}
-                >
-                    Post
-                </button>
-            </form>
-
+                    {user && commentInput}
         </div>
     )
 }

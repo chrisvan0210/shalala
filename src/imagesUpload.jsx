@@ -12,7 +12,7 @@ const useStyles = makeStyles(()=>({
         display:'flex',
         justifyContent:'center',
         flexDirection:'column',
-        background:'gray',
+        background:'#002450',
         border:'solid 1px blue',
         padding:'5px',
         width:'100%',
@@ -95,7 +95,7 @@ function ImagesUpload({username,childProps}) {
 
     return (
         <div className={classes.uploadContain}>
-            
+            <h3 style={{color:'white'}}>Let's post your story here !!!</h3>
             {/* caption */}
             <input type="text" placeholder="Enter a caption..." onChange={(event)=>setCaption(event.target.value)} value={caption   } />
             {/* file upload */}

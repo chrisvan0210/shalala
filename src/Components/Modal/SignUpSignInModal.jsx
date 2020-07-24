@@ -121,14 +121,16 @@ function SignUpSignInModal({userProps}) {
         
         setSignInModal(false);
     }
-
+const logout = ()=>{
+    auth.signOut()
+}
 
     return (
        
         <div>
             {
                 user?
-                <Button type="button" onClick={()=>auth.signOut()} className={classes.btnSign}>Logout</Button> :
+                <Button type="button" onClick={()=>logout()} className={classes.btnSign}>Logout</Button> :
                 <div >
                      <Button type="button" onClick={()=>setOpen(true)} className={classes.btnSign}>Sign Up</Button>
                      <Button type="button" onClick={()=>setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
@@ -153,7 +155,7 @@ function SignUpSignInModal({userProps}) {
                         <label htmlFor="password"><b>Password</b></label>
                         <Input type="password" className={classes.signInput} value={password} onChange={(e)=>setPassword(e.target.value)}/>
 
-                        <p>By creating an account you agree to our <a href>Terms & Privacy</a>.</p>
+                        <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signUp}>Register</Button>
                     </form>
                 </div>
@@ -173,7 +175,7 @@ function SignUpSignInModal({userProps}) {
                         <label htmlFor="password"><b>Password</b></label>
                         <Input type="password" className={classes.signInput} value={password} onChange={(e)=>setPassword(e.target.value)}/>
 
-                        <p>By creating an account you agree to our <a href>Terms & Privacy</a>.</p>
+                        <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signIn}>Login</Button>
                     </form>
                 </div>

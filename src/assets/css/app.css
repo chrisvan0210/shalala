@@ -10,9 +10,12 @@
 }
 
 .page_header {
+    position: sticky;
+    top: 0;
     background: white;
     padding: 15px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px #0c34ff solid;
@@ -40,21 +43,46 @@
     width: 30px;
 }
 
+.header-right {
+    display: flex;
+}
+
+
+
+
+
+
 button {
     border: none;
     cursor: pointer;
 }
-.mainPage-wrapper{
-    display:flex;
+
+.mainPage-wrapper {
+    display: flex;
     max-width: 1170px;
     margin: 5px auto;
+    padding: 0 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
-.post_contain{
+
+.post_contain {
     max-width: 750px;
     margin-right: 10px;
 }
 
-.upload_contain{
+.upload_contain {
     display: flex;
     justify-content: center;
+}
+
+
+@media (max-width:768px) {
+    .header_search {
+        order: 3;
+        flex-basis: 100%;
+    }
+    .page_header input{
+        width: 90%;
+    }
 }
