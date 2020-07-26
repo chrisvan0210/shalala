@@ -63,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignUpSignInModal({userProps}) {
+function SignUpSignInModal({userProps,userProps2}) {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
-    const [open, setOpen] = useState(false);
+    const [signUpModal, setSignUpModal] = useState(false);
     const [signInModal, setSignInModal] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -92,15 +92,16 @@ function SignUpSignInModal({userProps}) {
     },[user,username])
     
     // const handleOpen = () => {
-    //     setOpen(true);
+    //     SignUpModal(true);
     // };
 
     // const handleClose = () => {
-    //     setOpen(false);
+    //     SignUpModal(false);
     // };
    
     const signUp =(e)=>{
         e.preventDefault();
+        userProps2(username)
         auth.createUserWithEmailAndPassword(email,password)
         .then((authUser)=>{
             return authUser.user.updateProfile({
@@ -109,7 +110,7 @@ function SignUpSignInModal({userProps}) {
         })
         .catch((error)=>alert(error));
 
-        setOpen(false);
+        setSignUpModal(false);
     }
     
     const signIn = (e) =>{
@@ -127,6 +128,7 @@ const logout = ()=>{
     setUsername('')
     setUser(null)
     userProps(user)
+    userProps2('')
 }
 
     return (
@@ -136,15 +138,15 @@ const logout = ()=>{
                 user?
                 <Button type="button" onClick={()=>logout()} className={classes.btnSign}>Logout</Button> :
                 <div >
-                     <Button type="button" onClick={()=>setOpen(true)} className={classes.btnSign}>Sign Up</Button>
+                     <Button type="button" onClick={()=>setSignUpModal(true)} className={classes.btnSign}>Sign Up</Button>
                      <Button type="button" onClick={()=>setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
                 </div>
                
             }
             
             <Modal
-                open={open}
-                onClose={()=>setOpen(false)}
+                open={signUpModal}
+                onClose={()=>setSignUpModal(false)}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >

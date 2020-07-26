@@ -5,26 +5,9 @@ import { db, auth } from '../../firebase'
 import firebase from 'firebase';
 
 
-function Post({ userdk, username, imageUrl, caption, postId }) {
+function Post({ user, username, imageUrl, caption, postId }) {
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
-        auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                // user has logged in...
-                // console.log('authUser', authUser)
-                setUser(authUser.displayName)
-
-            }
-            else {
-                // user has logged out...
-                setUser(null)
-            }
-        })
-        console.log("status change on post")
-    }, [userdk])
 
 
     useEffect(() => {
@@ -44,14 +27,6 @@ function Post({ userdk, username, imageUrl, caption, postId }) {
 
     }, [postId])
 
-    // useEffect(()=>{
-    //     if(postId){
-    //       const check =   db.collection('posts').doc(postId).collection('comments')
-    //       if(check){
-    //         console.log(check)
-    //       }
-    //     }
-    // })
 
     const postComment = (event) => {
         event.preventDefault();

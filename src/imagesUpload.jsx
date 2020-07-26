@@ -89,6 +89,7 @@ function ImagesUpload({username,childProps,onclose}) {
                         setCaption('');
                         onclose(false)
                     })
+                    window.scrollTop = 0;
             }
         )
     }

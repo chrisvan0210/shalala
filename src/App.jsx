@@ -20,6 +20,7 @@ const postStyle = {
 function App() {
   const [userPosts, setUserPosts] = useState([]);
   const [username, setUsername] = useState('')
+  const [username2, setUsername2] = useState('')
   const [user, setUser] = useState(null)
   const [postModal, setPostModal] = useState(false)
   const [getProp, setGetProp] = useState('')
@@ -59,13 +60,12 @@ function App() {
   const renderPost = (
     userPosts.map(({ id, post }) => {
       return (
-        <Post key={id} userdk={username} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
+        <Post key={id} user={username?username:username2} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
       )
     })
   )
 
-console.log('appuser',username)
-
+console.log('appuser',username2)
 
   return (
     <div className="App_contain">
@@ -82,7 +82,7 @@ console.log('appuser',username)
             </form>
             <div className="header-right">
               <Button className="header_post_btn" onClick={handlePost}>POST</Button>{/* Upload */}
-              <SignUpSignInModal  userProps={user=>setUser(user)}/>
+              <SignUpSignInModal  userProps={user=>setUser(user)} userProps2={username=>setUsername2(username)}/>
             </div>
           </div>
 
@@ -116,8 +116,8 @@ console.log('appuser',username)
         onClose={() => setPostModal(false)}
       >
         <div style={postStyle} className="upload_contain">
-          {username?
-            <ImagesUpload username={username} onclose={(e)=>setPostModal(e)} childProps={(props) => setGetProp(props)} />
+          {username || username2 ?
+            <ImagesUpload username={username?username:username2} onclose={(e)=>setPostModal(e)} childProps={(props) => setGetProp(props)} />
             : <h2 style={{color:'white',background:'#009126'}}>Sorry you need to login to upload</h2>
           }
         </div>
