@@ -4,8 +4,7 @@ import { Post, SignUpSignInModal } from 'Components'
 import ImagesUpload from './imagesUpload'
 import { db, auth } from './firebase'
 import InstagramEmbed from 'react-instagram-embed'
-import Modal from '@material-ui/core/Modal'
-import { Button } from '@material-ui/core'
+import { Button, CircularProgress, Modal } from '@material-ui/core'
 
 import instaLOGO from 'assets/images/instaLOGO.png'
 import searchIcon from 'assets/images/searchIcon.png'
@@ -13,9 +12,8 @@ import searchIcon from 'assets/images/searchIcon.png'
 const postStyle = {
   top: `40%`,
   left: `50%`,
-  transform: `translate(-40%, -50%)`,
+  transform: `translate(-50%, -40%)`,
   position: 'absolute',
-  minWidth: 400,
   height: 'auto',
 }
 
@@ -25,6 +23,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [postModal, setPostModal] = useState(false)
   const [getProp, setGetProp] = useState('')
+  const [spin, setSpin] = useState(false)
 
   useEffect(() => {
     db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
@@ -33,85 +32,97 @@ function App() {
         post: doc.data()
       })));
     });
+
   }, []);
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         // user has logged in...
         // console.log('authUser', authUser)
-        setUser(authUser)
+        // setUser(authUser)
         setUsername(authUser.displayName)
       }
       else {
         // user has logged out...
         setUser(null)
+        setUsername('')
       }
     })
+    
+    console.log("status change on app")
   }, [user, username])
 
   const handlePost = () => {
     setPostModal(true)
   }
 
+  const renderPost = (
+    userPosts.map(({ id, post }) => {
+      return (
+        <Post key={id} userdk={username} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
+      )
+    })
+  )
 
-  //test get props from child imagesUpload cpn
+console.log('appuser',username)
+
+
   return (
-
     <div className="App_contain">
-
-      {/* header */}
-      <div className="page_header">
-        <img className="insta-logo" src={instaLOGO} alt="" />
-        <form className="header_search">
-          <input type="text" placeholder="Search..." />
-          <button className="search-btn" ><img src={searchIcon} alt="" /></button>
-        </form>
-        <div className="header-right">
-          {/* Upload */}
-          {user && <Button className="header_post_btn" onClick={handlePost}>POST</Button>}
-          <Modal
-            open={postModal}
-            onClose={() => setPostModal(false)}
-          >
-            <div style={postStyle} className="upload_contain">
-              {user ?
-                <ImagesUpload username={username} childProps={(props) => setGetProp(props)} />
-                : <div>Sorry you need to login to upload</div>
-              }
+      {spin ? (<div className="app_spin">
+        <CircularProgress />
+        <CircularProgress color="secondary" /></div>) :
+        <div>
+          {/* header */}
+          <div className="page_header">
+            <img className="insta-logo" src={instaLOGO} alt="" />
+            <form className="header_search">
+              <input type="text" placeholder="Search..." />
+              <button className="search-btn" ><img src={searchIcon} alt="" /></button>
+            </form>
+            <div className="header-right">
+              <Button className="header_post_btn" onClick={handlePost}>POST</Button>{/* Upload */}
+              <SignUpSignInModal  userProps={user=>setUser(user)}/>
             </div>
-          </Modal>
+          </div>
 
-          <SignUpSignInModal />
+
+          <div className="mainPage-wrapper"> {/* post here */}
+            <div className="post_contain">
+              {renderPost}
+            </div>
+
+            {/* Instagram profile clone */}
+            <InstagramEmbed
+              url='https://www.instagram.com/p/CC_G8XasBJd/?utm_source=ig_web_copy_link'
+              maxWidth={320}
+              hideCaption={false}
+              containerTagName='div'
+              protocol=''
+              injectScript
+              onLoading={() => { }}
+              onSuccess={() => { }}
+              onAfterRender={() => { }}
+              onFailure={() => { }}
+            />
+          </div>
+
         </div>
-      </div>
-      {/* end header */}
-      {/* post here */}
+      }
 
-      <div className="mainPage-wrapper">
-        <div className="post_contain">
-          {userPosts.map(({ id, post }) => {
-            return (
-              <Post key={id} user={username} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
-            )
-          })
+      {/* Modal */}
+      <Modal
+        open={postModal}
+        onClose={() => setPostModal(false)}
+      >
+        <div style={postStyle} className="upload_contain">
+          {username?
+            <ImagesUpload username={username} onclose={(e)=>setPostModal(e)} childProps={(props) => setGetProp(props)} />
+            : <h2 style={{color:'white',background:'#009126'}}>Sorry you need to login to upload</h2>
           }
-
         </div>
-        
-        {/* Instagram profile clone */}
-        <InstagramEmbed
-          url='https://www.instagram.com/p/CC_G8XasBJd/?utm_source=ig_web_copy_link'
-          maxWidth={320}
-          hideCaption={false}
-          containerTagName='div'
-          protocol=''
-          injectScript
-          onLoading={() => { }}
-          onSuccess={() => { }}
-          onAfterRender={() => { }}
-          onFailure={() => { }}
-        />
-      </div>
+      </Modal>
+
       
     </div>
   );

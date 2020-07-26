@@ -18,6 +18,41 @@
 .post-username{
     margin-left: 10px;
 }
+
+.comment_box{
+    margin-top: 10px;
+    padding: 10px 15px 15px;
+    height: auto;
+    overflow-y: auto;
+    max-height: 150px;
+    background: #000000 url(../images/comment-bg.jpg) repeat-x;
+    
+}
+.comment_box.blur1{
+    opacity: 0.5;
+}
+.comment_box p{
+    margin-bottom: 4px;
+    background-color: rgba(255,255,255,0.1);
+    padding: 4px 5px;
+    word-break: break-all;
+}
+.comment_box b{
+    color: aqua;
+}
+.comment_box::-webkit-scrollbar {
+    width: 1em;
+  }
+   
+  .comment_box::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+   
+  .comment_box::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+  }
 .comment-form{
     display: flex;
     margin-top: 20px;
@@ -40,4 +75,27 @@
 .comment-input:focus,
 .comment-btn:focus{
     outline: none;
+}
+
+@media (max-width:768px){
+    #form-wrapper{
+        width: 70%;
+    }
+    #form-wrapper1{
+        width: 70%;
+    }
+    .comment_box::-webkit-scrollbar {
+        width: unset;
+      }
+       
+      .comment_box::-webkit-scrollbar-track {
+        box-shadow: unset;
+      }
+       
+      .comment_box::-webkit-scrollbar-thumb {
+        background-color: unset;
+        outline: unset;
+        border-radius: none;
+      }
+
 }

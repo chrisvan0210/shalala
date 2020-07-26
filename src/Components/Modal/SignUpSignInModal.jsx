@@ -1,4 +1,5 @@
 import React from 'react';
+import 'assets/css/post.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button,Input } from '@material-ui/core';
@@ -16,14 +17,13 @@ function getModalStyle() {
     return {
         top: `40%`,
         left: `50%`,
-        transform: `translate(-40%, -50%)`,
+        transform: `translate(-50%, -40%)`,
     };
 }
 
 const useStyles = makeStyles((theme) => ({
     paper: {
         position: 'absolute',
-        minWidth: 400,
         height: 'auto',
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
@@ -88,6 +88,7 @@ function SignUpSignInModal({userProps}) {
                 setUser(null)
             }
         })
+        console.log("status change on sign")
     },[user,username])
     
     // const handleOpen = () => {
@@ -123,6 +124,9 @@ function SignUpSignInModal({userProps}) {
     }
 const logout = ()=>{
     auth.signOut()
+    setUsername('')
+    setUser(null)
+    userProps(user)
 }
 
     return (
@@ -144,7 +148,7 @@ const logout = ()=>{
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <div style={modalStyle} className={classes.paper}>
+                <div style={modalStyle} className={classes.paper} id="form-wrapper">
                     <form action="" method="post" className={classes.signForm}>
                         <h2>SignUp</h2>
 
@@ -166,7 +170,7 @@ const logout = ()=>{
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <div style={modalStyle} className={classes.paper}>
+                <div style={modalStyle} className={classes.paper} id="form-wrapper1">
                     <form action="" method="post" className={classes.signForm}>
                         <h2>SignIn</h2>
 

@@ -44,7 +44,7 @@ const useStyles = makeStyles(()=>({
 }))
 
 
-function ImagesUpload({username,childProps}) {
+function ImagesUpload({username,childProps,onclose}) {
     const classes = useStyles();
     const [image, setImage] = useState('')
     const [caption, setCaption] = useState('')
@@ -86,7 +86,8 @@ function ImagesUpload({username,childProps}) {
 
                         setProgress(0);
                         setImage(null);
-                        setCaption('')
+                        setCaption('');
+                        onclose(false)
                     })
             }
         )

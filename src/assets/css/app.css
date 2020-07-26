@@ -19,7 +19,8 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px #0c34ff solid;
-    box-shadow: 0px 5px 10px -2px gray
+    box-shadow: 0px 5px 10px -2px gray;
+    z-index:99;
 }
 
 .insta-logo {
@@ -74,7 +75,23 @@ button {
 .upload_contain {
     display: flex;
     justify-content: center;
+    min-width: 400px;
 }
+
+
+
+.app_spin{
+    background: rgb(204, 204, 204);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
 
 
 @media (max-width:768px) {
@@ -83,6 +100,10 @@ button {
         flex-basis: 100%;
     }
     .page_header input{
+        width: 90%;
+    }
+    .upload_contain {
+        min-width: unset;
         width: 90%;
     }
 }
