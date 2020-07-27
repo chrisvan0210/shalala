@@ -88,7 +88,6 @@ function SignUpSignInModal({userProps,userProps2}) {
                 setUser(null)
             }
         })
-        console.log("status change on sign")
     },[user,username])
     
     // const handleOpen = () => {
@@ -108,7 +107,7 @@ function SignUpSignInModal({userProps,userProps2}) {
                 displayName:username,
             })
         })
-        .catch((error)=>alert(error));
+        .catch((error)=>alert('Email or password are not correct...'));
 
         setSignUpModal(false);
     }
@@ -119,7 +118,7 @@ function SignUpSignInModal({userProps,userProps2}) {
         .then((authUser)=>{
             setUser(authUser);
         })
-        .catch(error=>alert(error))
+        .catch(error=>alert('Email or password are not correct...'))
         
         setSignInModal(false);
     }

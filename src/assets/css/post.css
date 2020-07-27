@@ -2,6 +2,9 @@
     display: flex;
     align-items: center;
 }
+.post-username:hover{
+    text-decoration: underline;
+}
 .post_wrapper{
     display: flex;
     flex-direction: column;
@@ -17,6 +20,7 @@
 }
 .post-username{
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .comment_box{

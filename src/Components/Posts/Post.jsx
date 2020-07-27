@@ -3,6 +3,7 @@ import 'assets/css/post.css'
 import Avatar from '@material-ui/core/Avatar'
 import { db, auth } from '../../firebase'
 import firebase from 'firebase';
+import AccountModal from '../Account/AccountModal'
 
 
 function Post({ user, username, imageUrl, caption, postId }) {
@@ -74,12 +75,7 @@ function Post({ user, username, imageUrl, caption, postId }) {
         <div className="post_wrapper">
             {/* username */}
             <div className="post_username">
-                <Avatar
-                    className="post-avatar"
-                    alt={username}
-                    src="/static/images/avatar/1.jpg"
-                />
-                <h3 className="post-username">{username}</h3>
+                <AccountModal user={user} username={username}/>
             </div>
 
             {/* data upload */}

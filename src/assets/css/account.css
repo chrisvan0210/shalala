@@ -1,0 +1,74 @@
+ul{
+    margin: 0;
+    padding: 0;
+}
+.account_container{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 600px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-40%);
+    background: white;
+    min-height: 150px;
+}
+.accountTab{
+    flex-basis: 30%;
+    background-color: rgb(30, 30, 30);
+    color: white;
+    padding: 15px 8px;
+}
+.accountTab ul li{
+    list-style: none;
+    border-bottom: solid 1px wheat;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.accountTab ul li:hover{
+    background-color: rgb(0, 184, 21);
+    transition: all 1s ease-out;
+}
+.accountTab ul li.active{
+    background-color: rgb(0, 184, 21);
+    transition: all 1s ease-out;
+}
+.edit_container{
+    flex-basis: 70%;
+    display: flex;
+    flex-direction: column;
+}
+.up_ava_container{
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    padding: 15px 5px;
+    text-align: center;
+}
+.account_container input{
+    opacity: 0;
+}
+/* .label_input{
+    
+} */
+.label_input::before{
+    content:'Browse';
+    position: absolute;
+    text-align: center;
+    right: 0;
+    width: 30%;
+    background-color: rgb(131 131 131);
+}
+.label_input::after{
+    content:'Chose file...';
+    text-align: left;
+    position: absolute;
+    left: 0;
+    width: 70%;
+    background-color: rgb(228, 225, 225);
+}
+.account_container progress{
+    width: 300px;
+    margin: 20px auto;
+    text-align: center;
+}

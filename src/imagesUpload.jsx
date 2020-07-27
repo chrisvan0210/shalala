@@ -12,7 +12,7 @@ const useStyles = makeStyles(()=>({
         display:'flex',
         justifyContent:'center',
         flexDirection:'column',
-        background:'#002450',
+        background:'#000000',
         border:'solid 1px blue',
         padding:'5px',
         width:'100%',
@@ -63,6 +63,7 @@ function ImagesUpload({username,childProps,onclose}) {
             "state_changed",
             (snapshot) => {
                 //progress function...
+                 //https://firebase.google.com/docs/storage/web/upload-files
                 const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 setProgress(progress);
             },
@@ -99,13 +100,13 @@ function ImagesUpload({username,childProps,onclose}) {
         <div className={classes.uploadContain}>
             <h3 style={{color:'white'}}>Let's post your story here !!!</h3>
             {/* caption */}
-            <input type="text" placeholder="Enter a caption..." onChange={(event)=>setCaption(event.target.value)} value={caption   } />
+            <input type="text" placeholder="Enter a caption..." onChange={(event)=>setCaption(event.target.value)} value={caption} />
             {/* file upload */}
             <input type="file" onChange={handleChange} />
             {/* button */}
             <progress value={progress} max='100'/>
             <Button style={{color:'white'}} onClick={handleUpload}>Upload</Button>
-            <Button style={{color:'white'}} onClick={()=>childProps('This is child Props')}>test pass child props</Button>
+            {/* <Button style={{color:'white'}} onClick={()=>childProps('This is child Props')}>test pass child props</Button> */}
         </div>
     )
 }

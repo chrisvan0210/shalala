@@ -20,7 +20,7 @@
     align-items: center;
     border-bottom: 1px #0c34ff solid;
     box-shadow: 0px 5px 10px -2px gray;
-    z-index:99;
+    z-index: 99;
 }
 
 .insta-logo {
@@ -80,7 +80,7 @@ button {
 
 
 
-.app_spin{
+.app_spin {
     background: rgb(204, 204, 204);
     width: 100%;
     min-height: 100vh;
@@ -99,9 +99,11 @@ button {
         order: 3;
         flex-basis: 100%;
     }
-    .page_header input{
+
+    .page_header input {
         width: 90%;
     }
+
     .upload_contain {
         min-width: unset;
         width: 90%;

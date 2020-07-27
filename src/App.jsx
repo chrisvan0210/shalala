@@ -13,14 +13,26 @@ const postStyle = {
   top: `40%`,
   left: `50%`,
   transform: `translate(-50%, -40%)`,
-  position: 'absolute',
-  height: 'auto',
+  position: `absolute`,
+  height: `auto`,
+  outline:`none`,
+  border: `solid 2px #000571`,
+  boxShadow: `0px 4px 5px #00188f`
+  
+}
+const postFail={
+  color:'white',
+  background:'rgb(162 0 0)',
+  width:'100%',
+  borderRadius:`5px`,
+  boxShadow: `0 0 5px 5px #940303`,
+  border: `solid 2px red`,
 }
 
 function App() {
   const [userPosts, setUserPosts] = useState([]);
   const [username, setUsername] = useState('')
-  const [username2, setUsername2] = useState('')
+  const [userRegister, setUserRegister] = useState('')
   const [user, setUser] = useState(null)
   const [postModal, setPostModal] = useState(false)
   const [getProp, setGetProp] = useState('')
@@ -50,7 +62,6 @@ function App() {
       }
     })
     
-    console.log("status change on app")
   }, [user, username])
 
   const handlePost = () => {
@@ -60,12 +71,11 @@ function App() {
   const renderPost = (
     userPosts.map(({ id, post }) => {
       return (
-        <Post key={id} user={username?username:username2} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
+        <Post key={id} user={username?username:userRegister} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} />
       )
     })
   )
 
-console.log('appuser',username2)
 
   return (
     <div className="App_contain">
@@ -82,7 +92,7 @@ console.log('appuser',username2)
             </form>
             <div className="header-right">
               <Button className="header_post_btn" onClick={handlePost}>POST</Button>{/* Upload */}
-              <SignUpSignInModal  userProps={user=>setUser(user)} userProps2={username=>setUsername2(username)}/>
+              <SignUpSignInModal  userProps={user=>setUser(user)} userProps2={username=>setUserRegister(username)}/>
             </div>
           </div>
 
@@ -116,9 +126,9 @@ console.log('appuser',username2)
         onClose={() => setPostModal(false)}
       >
         <div style={postStyle} className="upload_contain">
-          {username || username2 ?
-            <ImagesUpload username={username?username:username2} onclose={(e)=>setPostModal(e)} childProps={(props) => setGetProp(props)} />
-            : <h2 style={{color:'white',background:'#009126'}}>Sorry you need to login to upload</h2>
+          {username || userRegister ?
+            <ImagesUpload username={username?username:userRegister} onclose={(e)=>setPostModal(e)} childProps={(props) => setGetProp(props)} />
+            : <h2 style={postFail}>Sorry you need to login to upload</h2>
           }
         </div>
       </Modal>
