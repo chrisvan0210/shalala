@@ -90,7 +90,7 @@ function App() {
           <div className="page_header">
             <img className="insta-logo" src={nancyLogo} alt="" />
             <div style={{display:'flex',alignItems:"center"}} className="header_username">
-            <AccountModal user={username} username={username}/>
+            <AccountModal user={userRegister?userRegister:username} username={userRegister?userRegister:username}/>
             </div>
             {/* <form className="header_search">
               <input type="text" placeholder="Search..." />
