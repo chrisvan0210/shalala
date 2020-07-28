@@ -13,7 +13,7 @@
     position: sticky;
     top: 0;
     background: white;
-    padding: 15px;
+    padding:5px 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -24,7 +24,7 @@
 }
 
 .insta-logo {
-    width: 150px;
+    max-height: 65px;
     object-fit: contain;
 }
 
@@ -35,6 +35,11 @@
 .page_header form {
     display: flex;
 }
+.header_username .post-username{
+    color: black;
+}
+
+
 
 .search-btn {
     background-color: rgb(193, 192, 192);

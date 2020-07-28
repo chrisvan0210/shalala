@@ -12,6 +12,8 @@ ul{
     transform: translate(-50%,-40%);
     background: white;
     min-height: 150px;
+    outline: none;
+    border: solid 2px darkgray;
 }
 .accountTab{
     flex-basis: 30%;
@@ -42,21 +44,26 @@ ul{
     position: relative;
     width: 80%;
     margin: 0 auto;
-    padding: 15px 5px;
+    padding: 20px 5px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
-.account_container input{
+.blur input{
     opacity: 0;
+    width: 90%;
+    /* display: none; */
 }
-/* .label_input{
-    
-} */
+.up_ava_container.one input{
+    background: #eaeaea;
+    padding: 5px 10px;
+}
 .label_input::before{
     content:'Browse';
     position: absolute;
     text-align: center;
     right: 0;
-    width: 30%;
+    width: 35%;
     background-color: rgb(131 131 131);
 }
 .label_input::after{
@@ -64,11 +71,17 @@ ul{
     text-align: left;
     position: absolute;
     left: 0;
-    width: 70%;
+    width: 65%;
     background-color: rgb(228, 225, 225);
 }
 .account_container progress{
-    width: 300px;
+    width: 90%;
     margin: 20px auto;
     text-align: center;
+}
+
+@media(max-width:768px){
+    .account_container{
+        width: 90%;
+    }
 }

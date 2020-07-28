@@ -1,22 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import 'assets/css/account.css'
 import { Button, Avatar, Modal } from '@material-ui/core'
+import firebase from 'firebase'
 import { storage, db } from '../../firebase'
 
 
 
 function AccountModal({ user, username }) {
-    const [avatar, setAvatar] = useState('')
     const [progress, setProgress] = useState('')
     const [modal, setModal] = useState(false)
     const [userAvatar, setUserAvatar] = useState(null)
     const [accountTab, setAccountTab] = useState(1)
+    const [avatar, setAvatar] = useState('')
+    //change email, password
+    const [currentPassword, setCurrentPassword] = useState('')
+    const [newEmail, setNewEmail] = useState('')
+    const [newPassword, setNewPassword] = useState('')
 
+
+    const styling = ({
+        margin: `35px auto 5px`,
+        padding: `8px 5px`,
+        borderRadius: `5px`,
+        backgroundColor: `#002fff`,
+        color: `white`,
+        fontWeight: `800`,
+        boxShadow: `0 2px 2px 0px black`
+    })
 
     useEffect(() => {
-        db.collection('avatars').doc(username).onSnapshot(snapshot => {
-            setUserAvatar(snapshot.data())
-        });
+        if (username) {
+            db.collection('avatars').doc(username).onSnapshot(snapshot => {
+                setUserAvatar(snapshot.data())
+            });
+        } else {
+            setUserAvatar(null)
+        }
     }, [username]);
 
     const handleOpenModal = () => {
@@ -69,29 +88,65 @@ function AccountModal({ user, username }) {
         )
     }
 
-    //Setup select tab of account to edit
+    //Change Email , Password ---------------
+    const reauthenticate = (currentPassword) => {
+        var user = firebase.auth().currentUser;
+        var cred = firebase.auth.EmailAuthProvider.credential(
+            user.email, currentPassword);
+        return user.reauthenticateWithCredential(cred);
+    }
+    const handleChangeEmail = (e) => {
+        e.preventDefault();
+        reauthenticate(currentPassword).then(() => {
+            var user = firebase.auth().currentUser;
+            user.updateEmail(newEmail).then(() => {
+                alert("Email updated!");
+            }).catch((error) => { alert(error.message); });
+        }).catch((error) => { alert(error.message); });
+        setModal(false)
+    }
+    const handleChangePassword = (e) => {
+        e.preventDefault();
+        reauthenticate(currentPassword).then(() => {
+            var user = firebase.auth().currentUser;
+
+            user.updatePassword(newPassword).then(() => {
+                alert("Password updated!");
+            }).catch((error) => { alert(error.message); });
+        }).catch((error) => { alert(error.message); });
+        setModal(false)
+    }
+    //Change Email , Password ---------------
+
+    //Setup select tab of account to edit-----------------------
     const updatesAvatar = (
-        <div className="up_ava_container">
+        <div className="up_ava_container blur">
             <label className="label_input">
                 <input type="file" onChange={handleChange} />
             </label>
-            <progress value={progress} max='100' />
-            <Button type="submit" onClick={handleUpload}>Upload</Button>
+            {progress ? <progress value={progress} max='100' /> : ''}
+
+            <Button style={styling} type="submit" onClick={handleUpload}>Upload</Button>
         </div>
     )
     const updatesEmail = (
-        <div className="up_ava_container">
-            This function are updating...
-        </div>
+        <form className="up_ava_container one">
+            <label > Your current password:</label>
+            <input type="password" placeholder="password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+            <label > Enter your new email:</label>
+            <input type="email" placeholder="email..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+            <Button style={styling} type="submit" onClick={handleChangeEmail}>Update</Button>
+        </form>
     )
     const updatesPassword = (
-        <div className="up_ava_container">
-            This function are updating...
-        </div>
+        <form className="up_ava_container one">
+            <label > Your current password:</label>
+            <input type="password" placeholder="password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+            <label > Enter your new password:</label>
+            <input type="password" placeholder="password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+            <Button style={styling} type="submit" onClick={handleChangePassword}>Update</Button>
+        </form>
     )
-    useEffect(() => {
-
-    }, [accountTab])
     let selectAccountTab;
     switch (accountTab) {
         case 1: selectAccountTab = updatesAvatar
@@ -103,7 +158,6 @@ function AccountModal({ user, username }) {
         default: selectAccountTab = updatesAvatar;
     }
     // End setup select tab of account to edit
-
     return (
         <>
             {
@@ -119,7 +173,6 @@ function AccountModal({ user, username }) {
                         src='/static/images/avatar/1.jpg'
                     />
             }
-
             <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
 
             <Modal

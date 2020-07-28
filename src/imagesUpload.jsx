@@ -104,7 +104,10 @@ function ImagesUpload({username,childProps,onclose}) {
             {/* file upload */}
             <input type="file" onChange={handleChange} />
             {/* button */}
-            <progress value={progress} max='100'/>
+            {
+                progress? <progress value={progress} max='100'/> : ''
+            }
+            
             <Button style={{color:'white'}} onClick={handleUpload}>Upload</Button>
             {/* <Button style={{color:'white'}} onClick={()=>childProps('This is child Props')}>test pass child props</Button> */}
         </div>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import 'assets/css/app.css';
-import { Post, SignUpSignInModal } from 'Components'
+import { Post, SignUpSignInModal,AccountModal } from 'Components'
 import ImagesUpload from './imagesUpload'
 import { db, auth } from './firebase'
 import InstagramEmbed from 'react-instagram-embed'
-import { Button, CircularProgress, Modal } from '@material-ui/core'
+import { Button, CircularProgress, Modal, } from '@material-ui/core'
 
-import instaLOGO from 'assets/images/instaLOGO.png'
+import nancyLogo from 'assets/images/nancy-logo.gif'
 import searchIcon from 'assets/images/searchIcon.png'
 
 const postStyle = {
@@ -36,7 +36,10 @@ function App() {
   const [user, setUser] = useState(null)
   const [postModal, setPostModal] = useState(false)
   const [getProp, setGetProp] = useState('')
+  const [userAvatar, setUserAvatar] = useState(null)
+
   const [spin, setSpin] = useState(false)
+  
 
   useEffect(() => {
     db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
@@ -85,11 +88,14 @@ function App() {
         <div>
           {/* header */}
           <div className="page_header">
-            <img className="insta-logo" src={instaLOGO} alt="" />
-            <form className="header_search">
+            <img className="insta-logo" src={nancyLogo} alt="" />
+            <div style={{display:'flex',alignItems:"center"}} className="header_username">
+            <AccountModal user={username} username={username}/>
+            </div>
+            {/* <form className="header_search">
               <input type="text" placeholder="Search..." />
               <button className="search-btn" ><img src={searchIcon} alt="" /></button>
-            </form>
+            </form> */}
             <div className="header-right">
               <Button className="header_post_btn" onClick={handlePost}>POST</Button>{/* Upload */}
               <SignUpSignInModal  userProps={user=>setUser(user)} userProps2={username=>setUserRegister(username)}/>
