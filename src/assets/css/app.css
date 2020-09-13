@@ -2,6 +2,18 @@
     margin: 0;
 }
 
+.demoBtn {
+    width: 200px;
+    height: 70px;
+    background-size: 200% auto;
+    transition: all 400ms linear;
+    background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%)
+}
+
+.demoBtn:hover {
+    background-position: right center;
+}
+
 .App_contain {
     background-color: #000000;
     color: white;
@@ -13,7 +25,7 @@
     position: sticky;
     top: 0;
     background: white;
-    padding:5px 15px;
+    padding: 5px 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -35,7 +47,8 @@
 .page_header form {
     display: flex;
 }
-.header_username .post-username{
+
+.header_username .post-username {
     color: black;
 }
 
@@ -66,24 +79,121 @@ button {
 .mainPage-wrapper {
     display: flex;
     max-width: 1170px;
+    min-height: 100vh;
     margin: 5px auto;
     padding: 0 10px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.post_contain {
-    max-width: 750px;
+.App_post_contain {
     margin-right: 10px;
+    width: 700px;
+    z-index: 10;
 }
 
+/* upload Modal */
 .upload_contain {
     display: flex;
     justify-content: center;
     min-width: 400px;
+
+    /* position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    height: auto;
+    outline: none;
+    border: solid 2px #000571;
+    box-shadow: 0px 4px 5px #00188f;
+    animation: goDown 300ms ease-out;
+    transition: all 500ms ease-in-out */
 }
 
+.Upload_text {
+    width: 85%;
+    height: 50px;
+    margin: 20px auto;
+    padding: 5px;
+}
 
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    color: white;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.btn_upload h2 {
+    color: #c2c2c2;
+    animation: scaleBtn 2s ease-in-out infinite;
+    transition: all 200ms ease-out;
+}
+
+.btn_upload h2:hover {
+    text-shadow: 0 0 10px #e4e4e4;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+
+.btn_upload span:nth-child(1) {
+    position: absolute;
+    top: 0;
+    left: -150px;
+    width: 150px;
+    height: 2px;
+    /* border-radius: 20%; */
+    animation: top 2s linear infinite 0s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(90deg, rgb(0, 0, 0), rgb(214, 214, 214));
+
+}
+
+.btn_upload span:nth-child(2) {
+    position: absolute;
+    top: -50px;
+    right: 0px;
+    width: 2px;
+    height: 50px;
+    animation: right 2s linear infinite 1s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(180deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+
+.btn_upload span:nth-child(3) {
+    position: absolute;
+    bottom: 0px;
+    right: -150px;
+    width: 150px;
+    height: 2px;
+    animation: bottom 2s linear infinite 0s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(270deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+
+.btn_upload span:nth-child(4) {
+    position: absolute;
+    bottom: -50px;
+    left: 0px;
+    width: 2px;
+    height: 50px;
+    animation: left 2s linear infinite 1s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(360deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+
+/* .makeStyles-uploadContain-4 button{
+    background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%)
+}
+.makeStyles-uploadContain-4 button:hover{
+    background-position: right center;
+} */
 
 .app_spin {
     background: rgb(204, 204, 204);
@@ -94,9 +204,36 @@ button {
     align-items: center;
 }
 
+.App_footer {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    background-color: rgb(1, 18, 42);
+}
+
+.App_footer_contain {
+    z-index: 10;
+}
+
+.App_footer h3 {
+    cursor: pointer;
+    z-index: 10;
+}
 
 
+.particles-box {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
 
+.particles-box #tsparticles {
+    height: inherit;
+}
 
 
 @media (max-width:768px) {
@@ -112,5 +249,76 @@ button {
     .upload_contain {
         min-width: unset;
         width: 90%;
+    }
+}
+
+/* Button effect*/
+@keyframes top {
+    0% {
+        transform: translateX(0px)
+    }
+
+    100% {
+        transform: translateX(300px)
+    }
+}
+
+@keyframes right {
+    0% {
+        transform: translateY(0px)
+    }
+
+    100% {
+        transform: translateY(100px)
+    }
+}
+
+@keyframes bottom {
+    0% {
+        transform: translateX(0px)
+    }
+
+    100% {
+        transform: translateX(-300px)
+    }
+}
+
+@keyframes left {
+    0% {
+        transform: translateY(0px)
+    }
+
+    100% {
+        transform: translateY(-100px)
+    }
+}
+
+/* Button post */
+@keyframes scaleBtn {
+    0% {
+        letter-spacing: unset;
+    }
+
+    50% {
+        letter-spacing: 2px;
+    }
+
+    100% {
+        letter-spacing: unset;
+    }
+}
+
+/* Show Modal Go Down */
+@keyframes goDown {
+    0% {
+        top: 0%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    100% {
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -30%);
     }
 }

@@ -2,10 +2,10 @@ import React from 'react';
 import 'assets/css/post.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Button,Input } from '@material-ui/core';
-import { auth } from '../../firebase';
+import { Button, Input } from '@material-ui/core';
+import { db,auth,storage } from '../../firebase';
 
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 // function rand() {
 //   return Math.round(Math.random() * 20) - 10;
 // }
@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
-    btnSign:{
-        padding:"5px 15px"
+    btnSign: {
+        padding: "5px 15px"
     },
     signForm: {
         display: 'flex',
@@ -43,27 +43,27 @@ const useStyles = makeStyles((theme) => ({
         '& label': {
             marginBottom: '5px'
         },
-        '& p':{
-            margin:'10px 0'
+        '& p': {
+            margin: '10px 0'
         },
-        '& h2':{
-            margin:'10px auto 20px'
+        '& h2': {
+            margin: '10px auto 20px'
         },
-        '& button':{
-            padding:'8px 5px',
-            borderRadius:'5px',
-            margin:'20px auto 5px',
-            width:'100px',
-            backgroundColor:'#002fff',
-            color:'white',
-           '& hover':{
-               opacity:'0.8'
-           } 
+        '& button': {
+            padding: '8px 5px',
+            borderRadius: '5px',
+            margin: '20px auto 5px',
+            width: '100px',
+            backgroundColor: '#002fff',
+            color: 'white',
+            '& hover': {
+                opacity: '0.8'
+            }
         },
     },
 }));
 
-function SignUpSignInModal({userProps,userProps2}) {
+function SignUpSignInModal({ userProps, userProps2 }) {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
@@ -72,13 +72,13 @@ function SignUpSignInModal({userProps,userProps2}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
-    const [user,setUser] = useState(null)
+    const [user, setUser] = useState(null)
 
-    
 
-    useEffect(()=>{
-       auth.onAuthStateChanged((authUser)=>{
-            if(authUser){
+   
+     useEffect(() => {
+        const  unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
                 // user has logged in...
                 // console.log(authUser)
                 setUser(authUser)
@@ -88,8 +88,11 @@ function SignUpSignInModal({userProps,userProps2}) {
                 setUser(null)
             }
         })
-    },[user,username])
-    
+        return()=>{
+            unsubscribe();
+        }
+    }, [user, username])
+
     // const handleOpen = () => {
     //     SignUpModal(true);
     // };
@@ -97,55 +100,59 @@ function SignUpSignInModal({userProps,userProps2}) {
     // const handleClose = () => {
     //     SignUpModal(false);
     // };
-   
-    const signUp =(e)=>{
+
+    const signUp = (e) => {
         e.preventDefault();
         userProps2(username)
-        auth.createUserWithEmailAndPassword(email,password)
-        .then((authUser)=>{
-            return authUser.user.updateProfile({
-                displayName:username,
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((authUser) => {
+                return authUser.user.updateProfile({
+                    displayName: username,
+                })
             })
-        })
-        .catch((error)=>alert('Email or password are not correct...'));
+            .catch((error) => alert('Email or password are not correct...'));
 
         setSignUpModal(false);
     }
-    
-    const signIn = (e) =>{
+
+    const signIn = (e) => {
         e.preventDefault();
-        auth.signInWithEmailAndPassword(email,password)
-        .then((authUser)=>{
-            setUser(authUser);
-        })
-        .catch(error=>alert('Email or password are not correct...'))
-        
+        auth.signInWithEmailAndPassword(email, password)
+            .then((authUser) => {
+                setUser(authUser);
+            })
+            .catch(error => alert('Email or password are not correct...'))
+
         setSignInModal(false);
     }
-const logout = ()=>{
-    auth.signOut()
-    setUsername('')
-    setUser(null)
-    userProps(user)
-    userProps2('')
-}
+
+    // let unsubscribe = db.usersCollection.doc(user.uid).onSnapshot(doc => {
+    //     storage.commit('setUserProfile', doc.data())
+    // })
+    const logout = () => {
+        auth.signOut()
+        setUsername('')
+        setUser(null)
+        userProps(user)
+        userProps2('')
+    }
 
     return (
-       
+
         <div>
             {
-                user?
-                <Button type="button" onClick={()=>logout()} className={classes.btnSign}>Logout</Button> :
-                <div >
-                     <Button type="button" onClick={()=>setSignUpModal(true)} className={classes.btnSign}>Sign Up</Button>
-                     <Button type="button" onClick={()=>setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
-                </div>
-               
+                user ?
+                    <Button type="button" onClick={() => logout()} className={classes.btnSign}>Logout</Button> :
+                    <div >
+                        <Button type="button" onClick={() => setSignUpModal(true)} className={classes.btnSign}>Sign Up</Button>
+                        <Button type="button" onClick={() => setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
+                    </div>
+
             }
-            
+
             <Modal
                 open={signUpModal}
-                onClose={()=>setSignUpModal(false)}
+                onClose={() => setSignUpModal(false)}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
@@ -154,11 +161,11 @@ const logout = ()=>{
                         <h2>SignUp</h2>
 
                         <label htmlFor="username" ><b>Username</b></label>
-                        <Input type="text" className={classes.signInput} value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                        <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="email"><b>Email</b></label>
-                        <Input type="email" className={classes.signInput} value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                        <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
-                        <Input type="password" className={classes.signInput} value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                        <Input type="password" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
 
                         <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signUp}>Register</Button>
@@ -167,7 +174,7 @@ const logout = ()=>{
             </Modal>
             <Modal
                 open={signInModal}
-                onClose={()=>setSignInModal(false)}
+                onClose={() => setSignInModal(false)}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
@@ -176,9 +183,9 @@ const logout = ()=>{
                         <h2>SignIn</h2>
 
                         <label htmlFor="email"><b>Email</b></label>
-                        <Input type="email" className={classes.signInput} value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                        <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
-                        <Input type="password" className={classes.signInput} value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                        <Input type="password" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
 
                         <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signIn}>Login</Button>

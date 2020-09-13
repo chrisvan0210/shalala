@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import 'assets/css/post.css'
 import Avatar from '@material-ui/core/Avatar'
 import { db, auth } from '../../firebase'
 import firebase from 'firebase';
 import AccountModal from '../Account/AccountModal'
 
+const Contents = lazy(() => (import('./Contents')))
 
-function Post({ user, username, imageUrl, caption, postId }) {
+
+function Post({ user, username, imageUrl, caption, postId, type }) {
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
 
@@ -41,10 +43,10 @@ function Post({ user, username, imageUrl, caption, postId }) {
             })
         setComment('');
         let target = document.getElementById(postId)
-        if(target !==null){
+        if (target !== null) {
             target.scrollTop = 0
         }
-       
+
         // target.scrollTop = target.scrollHeight + 40;
         // target.scrollTop = (target.scrollHeight-target.clientHeight) + 5
 
@@ -75,18 +77,28 @@ function Post({ user, username, imageUrl, caption, postId }) {
         <div className="post_wrapper">
             {/* username */}
             <div className="post_username">
-                <AccountModal user={user} username={username}/>
+                <AccountModal user={user} username={username} />
             </div>
 
-            {/* data upload */}
-            <img className="post-image" src={imageUrl} alt="" />
+            {/* data upload from database */}
+            {/* <img className="post-image" src={imageUrl} alt="" /> */}
+            <Suspense fallback={
+                <div className="PreImages">
+                    <h2>Loading...</h2>
+                </div>
+
+            }>
+                <div className="contents-box">
+                    <Contents imageUrl={imageUrl} type={type} />
+                </div>
+            </Suspense>
 
             {/* caption */}
             <div className="post-captions">{caption}</div>
 
             {/* comments box */}
 
-            {comments.length !== 0  ?
+            {comments.length !== 0 ?
                 <div className="comment_box" id={postId}>
                     {comments.map((comment, id) => (
                         <p key={id}>
@@ -94,9 +106,9 @@ function Post({ user, username, imageUrl, caption, postId }) {
                         </p>
                     )
                     )}
-                </div>  :
+                </div> :
                 <div className="comment_box blur1">This post dont have comment yet...</div>
-        }
+            }
 
             {user && commentInput}
         </div>

@@ -29,10 +29,14 @@ function AccountModal({ user, username }) {
     })
 
     useEffect(() => {
+        let unsubscribe;
         if (username) {
-            db.collection('avatars').doc(username).onSnapshot(snapshot => {
+         unsubscribe = db.collection('avatars').doc(username).onSnapshot(snapshot => {
                 setUserAvatar(snapshot.data())
             });
+            return ()=>{
+                unsubscribe();
+            }
         } else {
             setUserAvatar(null)
         }
@@ -107,10 +111,11 @@ function AccountModal({ user, username }) {
     }
     const handleChangePassword = (e) => {
         e.preventDefault();
-        reauthenticate(currentPassword).then(() => {
+        reauthenticate(currentPassword)
+        .then(() => {
             var user = firebase.auth().currentUser;
-
-            user.updatePassword(newPassword).then(() => {
+            user.updatePassword(newPassword)
+            .then(() => {
                 alert("Password updated!");
             }).catch((error) => { alert(error.message); });
         }).catch((error) => { alert(error.message); });
@@ -126,7 +131,13 @@ function AccountModal({ user, username }) {
             </label>
             {progress ? <progress value={progress} max='100' /> : ''}
 
-            <Button style={styling} type="submit" onClick={handleUpload}>Upload</Button>
+            <button className="btn_avatar" type="submit" onClick={handleUpload}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <h2>Update</h2>
+            </button>
         </div>
     )
     const updatesEmail = (

@@ -11,7 +11,7 @@ ul{
     left: 50%;
     transform: translate(-50%,-40%);
     background: white;
-    min-height: 150px;
+    min-height: 250px;
     outline: none;
     border: solid 2px darkgray;
 }
@@ -80,8 +80,151 @@ ul{
     text-align: center;
 }
 
+
+.btn_avatar{
+   display:block;
+   position: relative;
+   overflow: hidden;
+   color:white;
+   width:150px;
+   height:50px;
+   margin:50px auto 5px;
+    outline:none;
+    background-color:black;
+}
+.btn_avatar h2 {
+    color: #c2c2c2;
+    animation: scaleBtn 2s ease-in-out infinite;
+    transition: all 200ms ease-out;
+}
+.btn_avatar h2:hover {
+    text-shadow: 0 0 10px #e4e4e4;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+.btn_avatar span:nth-child(1) {
+    position: absolute;
+    top: 0;
+    left: -150px;
+    width: 150px;
+    height: 2px;
+    animation: top 2s linear infinite 0s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(90deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+.btn_avatar span:nth-child(2) {
+    position: absolute;
+    top: -50px;
+    right: 0px;
+    width: 2px;
+    height: 50px;
+    animation: right 2s linear infinite 1s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(180deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+.btn_avatar span:nth-child(3) {
+    position: absolute;
+    bottom: 0px;
+    right: -150px;
+    width: 150px;
+    height: 2px;
+    animation: bottom 2s linear infinite 0s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(270deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+.btn_avatar span:nth-child(4) {
+    position: absolute;
+    bottom: -50px;
+    left: 0px;
+    width: 2px;
+    height: 50px;
+    animation: left 2s linear infinite 1s;
+    background: rgb(98, 98, 98);
+    background: linear-gradient(360deg, rgb(0, 0, 0), rgb(214, 214, 214));
+}
+
+
+
+
+
+
+
+
 @media(max-width:768px){
     .account_container{
         width: 90%;
+    }
+}
+
+
+
+/* Button effect*/
+@keyframes top {
+    0% {
+        transform: translateX(0px)
+    }
+
+    100% {
+        transform: translateX(300px)
+    }
+}
+
+@keyframes right {
+    0% {
+        transform: translateY(0px)
+    }
+
+    100% {
+        transform: translateY(100px)
+    }
+}
+
+@keyframes bottom {
+    0% {
+        transform: translateX(0px)
+    }
+
+    100% {
+        transform: translateX(-300px)
+    }
+}
+
+@keyframes left {
+    0% {
+        transform: translateY(0px)
+    }
+
+    100% {
+        transform: translateY(-100px)
+    }
+}
+
+/* Button post */
+@keyframes scaleBtn {
+    0% {
+        letter-spacing: unset;
+    }
+
+    50% {
+        letter-spacing: 2px;
+    }
+
+    100% {
+        letter-spacing: unset;
+    }
+}
+
+/* Show Modal Go Down */
+@keyframes goDown {
+    0% {
+        top: 0%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    100% {
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -30%);
     }
 }
