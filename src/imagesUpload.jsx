@@ -1,10 +1,9 @@
 import React from 'react'
 import firebase from 'firebase'
-import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useState } from 'react'
 import { storage, db } from './firebase'
-import { useEffect } from 'react'
+import md5 from 'md5'
 
 
 
@@ -51,6 +50,7 @@ const useStyles = makeStyles(() => ({
 function ImagesUpload({ username, childProps, onclose }) {
     const classes = useStyles();
     const [image, setImage] = useState('')
+    const [filename, setFilename] = useState('')
     const [caption, setCaption] = useState('')
     const [progress, setProgress] = useState('')
     const [typeFile,setTypeFile] = useState('')
@@ -76,11 +76,15 @@ function ImagesUpload({ username, childProps, onclose }) {
             else{
                 setTypeFile('video')
             }
+            
         }
+        
+        setFilename(md5(img.name))
+       
     }
 
     const handleUpload = () => {
-        const uploadImage = storage.ref(`images/${image.name}`).put(image)
+        const uploadImage = storage.ref(`images/${filename}`).put(image)
 
         uploadImage.on(
             "state_changed",
@@ -102,7 +106,7 @@ function ImagesUpload({ username, childProps, onclose }) {
                     .then(url => {
                         //post image inside db... 
                         db.collection('posts').add({
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(), 
                             caption: caption,
                             imageUrl: url,
                             username: username,

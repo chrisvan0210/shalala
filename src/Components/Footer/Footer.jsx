@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 
@@ -17,7 +17,6 @@ function Footer() {
             let y = e.offsetY;
             let z = 150;
             setX(x); setY(y); setZ(z);
-            console.log(X,Y,Z)
         }
         let el1 = document.getElementsByClassName('App_footer')
         el1[0].addEventListener('mousemove',runEvent)

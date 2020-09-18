@@ -19,19 +19,7 @@
 
 }
 
-.PreImages {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    width: 100%;
-    height: 500px;
-    background: yellowgreen;
-}
 
-.PreImages h2 {
-    display: block;
-    width: 100%;
-}
 
 .contents-box {
     width: 100%;

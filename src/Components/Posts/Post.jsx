@@ -1,17 +1,17 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react'
+import React, { useState, useEffect, lazy, Suspense, forwardRef } from 'react'
 import 'assets/css/post.css'
-import Avatar from '@material-ui/core/Avatar'
-import { db, auth } from '../../firebase'
+import { db } from '../../firebase'
 import firebase from 'firebase';
 import AccountModal from '../Account/AccountModal'
+import {CircularProgress} from '@material-ui/core'
+
 
 const Contents = lazy(() => (import('./Contents')))
 
 
-function Post({ user, username, imageUrl, caption, postId, type }) {
+const Post = ({ user, username, imageUrl, caption, postId, type }, ref)=> {
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
-
 
     useEffect(() => {
         let unsubscribe;
@@ -74,7 +74,7 @@ function Post({ user, username, imageUrl, caption, postId, type }) {
 
 
     return (
-        <div className="post_wrapper">
+        <div className="post_wrapper" ref={ref}>
             {/* username */}
             <div className="post_username">
                 <AccountModal user={user} username={username} />
@@ -82,10 +82,15 @@ function Post({ user, username, imageUrl, caption, postId, type }) {
 
             {/* data upload from database */}
             {/* <img className="post-image" src={imageUrl} alt="" /> */}
+           
+       
             <Suspense fallback={
-                <div className="PreImages">
-                    <h2>Loading...</h2>
-                </div>
+                <div className="app_spin">
+                <CircularProgress />
+                <CircularProgress color="secondary" /></div>
+                // <div className="PreImages">
+                //     <h2>Loading...</h2>
+                // </div>
 
             }>
                 <div className="contents-box">
@@ -115,4 +120,4 @@ function Post({ user, username, imageUrl, caption, postId, type }) {
     )
 }
 
-export default Post
+export default forwardRef(Post);

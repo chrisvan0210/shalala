@@ -127,7 +127,7 @@ function AccountModal({ user, username }) {
     const updatesAvatar = (
         <div className="up_ava_container blur">
             <label className="label_input">
-                <input type="file" onChange={handleChange} />
+                <input type="file" onChange={handleChange}  />
             </label>
             {progress ? <progress value={progress} max='100' /> : ''}
 

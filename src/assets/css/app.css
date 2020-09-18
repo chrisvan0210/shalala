@@ -198,7 +198,7 @@ input[type="file"] {
 .app_spin {
     background: rgb(204, 204, 204);
     width: 100%;
-    min-height: 100vh;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,6 +249,20 @@ input[type="file"] {
     .upload_contain {
         min-width: unset;
         width: 90%;
+    }
+    .app_spin {
+        height: 350px;
+    }
+}
+@media (max-width:600px) {
+    .app_spin {
+        height: 300px;
+    }
+}
+
+@media (max-width:426px) {
+    .app_spin {
+        height: 150px;
     }
 }
 
@@ -322,3 +336,6 @@ input[type="file"] {
         transform: translate(-50%, -30%);
     }
 }
+
+
+

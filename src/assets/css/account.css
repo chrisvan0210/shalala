@@ -39,10 +39,12 @@ ul{
     flex-basis: 70%;
     display: flex;
     flex-direction: column;
+    background-color: black;
 }
 .up_ava_container{
     position: relative;
     width: 80%;
+    height: 100%;
     margin: 0 auto;
     padding: 20px 5px;
     text-align: center;
@@ -62,14 +64,16 @@ ul{
     content:'Browse';
     position: absolute;
     text-align: center;
+    cursor: pointer;
     right: 0;
     width: 35%;
     background-color: rgb(131 131 131);
 }
 .label_input::after{
-    content:'Chose file...';
+    content:'Upload image..';
     text-align: left;
     position: absolute;
+    cursor: pointer;
     left: 0;
     width: 65%;
     background-color: rgb(228, 225, 225);
@@ -82,15 +86,17 @@ ul{
 
 
 .btn_avatar{
-   display:block;
-   position: relative;
-   overflow: hidden;
-   color:white;
-   width:150px;
-   height:50px;
-   margin:50px auto 5px;
-    outline:none;
-    background-color:black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    color: white;
+    width: 150px;
+    height: 50px;
+    outline: none;
+    background-color: black;
 }
 .btn_avatar h2 {
     color: #c2c2c2;
