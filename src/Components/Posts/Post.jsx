@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense, forwardRef } from 'react'
 import 'assets/css/post.css'
 import { db } from '../../firebase'
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import AccountModal from '../Account/AccountModal'
 import { CircularProgress } from '@material-ui/core'
 
@@ -17,25 +17,6 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     const [commmentId, setCommentId] = useState('')
 
 
-    // useEffect(() => {
-    //     let unsubscribe;
-        
-    //     if (postId) {
-    //         unsubscribe = db.collection('posts')
-    //             .doc(postId)
-    //             .collection('comments')
-    //             .orderBy('timestamp', 'desc')
-    //             .onSnapshot((snapshot) => {
-    //                 snapshot.docs.map((doc) =>
-    //                     setComments(prev => [...prev, Object.assign(doc.data(), { id: doc.id })])
-    //                 )
-    //             });
-    //     }
-    //     return () => {
-    //         unsubscribe();
-    //     }
-
-    // }, [postId])
 
     useEffect(() => {
         let unsubscribe;
@@ -108,22 +89,20 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
         </form>
     )
 
-    // const onOpenEdit = () => {
-
-    //     setEditComment(true)
-    // }
-    // const onCloseEdit = () => {
-    //     setEditComment(false)
-    // }
     const onEditCommentBox = (id, text) => {
-        console.log(id)
         setCommentId(id)
         if(text){
             setCurrentComment(text)
         }
         
     }
-
+    const onDeleteComment =(id)=>{
+        db.collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(id)
+            .delete()
+    }
     const commentUpdate= () => (
         <form className="edit-form" >
             <textarea
@@ -196,7 +175,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
                                         <ul>
                                             <li onClick={() => onEditCommentBox(comment.id, comment.text)}>Edit</li>
                                             <hr/>
-                                            <li>Delete</li>
+                                            <li onClick={() => onDeleteComment(comment.id)}>Delete</li>
                                         </ul>
                                     </div>
                             </div>
