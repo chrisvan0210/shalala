@@ -9,6 +9,9 @@ import InstagramEmbed from 'react-instagram-embed'
 import { Button, Modal } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
+
+
+
 import nancyLogo from 'assets/images/nancy-logo.gif'
 import starBucks from 'assets/images/starbucks.png'
 
@@ -63,8 +66,9 @@ function App() {
   const [getProp, setGetProp] = useState('')
   const [more, setMore] = useState(true)
   const [lastVisible, setLastVisible] = useState()
+  const [autoplay, setAutoplay] = useState(false)
 
- 
+
   const classes = useStyles();
 
 
@@ -91,12 +95,18 @@ function App() {
 
 
   const observer = useRef()
+  // const lastRef = useCallback(
+  //   node => {
+  //     console.log(node)
+  //   },
+  //   [],
+  // )
   const lastRef = useCallback(node => {
     if (observer.current) observer.current.disconnect() // stop previous ref
     observer.current = new IntersectionObserver(entries => { // take the last current ref
       if (entries[0].isIntersecting && more && lastVisible) {  // if the last document not Visible mean no more data on firebase then stop making new pull request
         db.collection('posts').orderBy('timestamp', 'desc').startAfter(lastVisible).limit(5).onSnapshot(snapshot => {
-          if ((snapshot.docs.length - 1 ) !== lastVisible) {  //if the last document of new request is the last document of previous => stop render for avoid same key index error
+          if ((snapshot.docs.length - 1) !== lastVisible) {  //if the last document of new request is the last document of previous => stop render for avoid same key index error
             const newPost = snapshot.docs.map(doc => ({
               id: doc.id,
               post: doc.data()
@@ -104,14 +114,14 @@ function App() {
             setUserPosts(userPosts.concat(newPost))
             setLastVisible(snapshot.docs[snapshot.docs.length - 1]) // Check if the last document of pull request are VISIBLE OR UNDEFINED
           }
-          else{
+          else {
             setMore(false)
           }
         })
       }
     })
     if (node) observer.current.observe(node)
-  }, [lastVisible, userPosts,more])
+  }, [lastVisible, userPosts, more])
 
 
 
@@ -148,48 +158,49 @@ function App() {
   return (
     <div className="App_contain">
       <img src={starBucks} alt="" style={{ display: "none" }} />
-      
-        <div>
-          {/* header */}
-          <div className="page_header">
-            <img className="insta-logo" src={nancyLogo} alt="" />
-            <div style={{ display: 'flex', alignItems: "center" }} className="header_username">
-              <AccountModal user={userRegister ? userRegister : username} username={userRegister ? userRegister : username} />
-            </div>
-            {/* <form className="header_search">
+
+      <div>
+        {/* header */}
+        <div className="page_header">
+          <img className="insta-logo" src={nancyLogo} alt="" />
+          <div style={{ display: 'flex', alignItems: "center" }} className="header_username">
+            <AccountModal user={userRegister ? userRegister : username} username={userRegister ? userRegister : username} />
+          </div>
+          {/* <form className="header_search">
               <input type="text" placeholder="Search..." />
               <button className="search-btn" ><img src={searchIcon} alt="" /></button>
             </form> */}
-            <div className="header-right">
-              <Button className="header_post_btn" onClick={handlePost}>UPLOAD</Button>{/* Upload */}
-              <SignUpSignInModal userProps={user => setUser(user)} userProps2={username => setUserRegister(username)} />
-            </div>
+          <div className="header-right">
+            <Button className="header_post_btn" onClick={handlePost}>UPLOAD</Button>{/* Upload */}
+            <SignUpSignInModal userProps={user => setUser(user)} userProps2={username => setUserRegister(username)} />
           </div>
-
-
-          <div className="mainPage-wrapper"> {/* post here */}
-            <div className="App_post_contain">
-              {renderPost}
-            </div>
-
-            {/* Instagram profile clone */}
-            <InstagramEmbed
-              url='https://www.instagram.com/p/CC_G8XasBJd/?utm_source=ig_web_copy_link'
-              maxWidth={320}
-              style={{ zIndex: '10', height: 'fit-content' }}
-              hideCaption={false}
-              containerTagName='div'
-              protocol=''
-              injectScript
-              onLoading={() => { }}
-              onSuccess={() => { }}
-              onAfterRender={() => { }}
-              onFailure={() => { }}
-            />
-          </div>
-          <Footer />
         </div>
-      
+
+
+        <div className="mainPage-wrapper">
+          <div className="App_post_contain">{/* post here */}
+
+            {renderPost}
+          </div>
+
+          {/* Instagram profile clone */}
+          <InstagramEmbed
+            url='https://www.instagram.com/p/CC_G8XasBJd/?utm_source=ig_web_copy_link'
+            maxWidth={320}
+            style={{ zIndex: '10', height: 'fit-content' }}
+            hideCaption={false}
+            containerTagName='div'
+            protocol=''
+            injectScript
+            onLoading={() => { }}
+            onSuccess={() => { }}
+            onAfterRender={() => { }}
+            onFailure={() => { }}
+          />
+        </div>
+        <Footer />
+      </div>
+
       {/* Modal */}
       <Modal
         open={postModal}
@@ -202,6 +213,8 @@ function App() {
           }
         </div>
       </Modal>
+
+      {/* prarticles theme */}
       <div className="particles-box">
         <ParticlesData />
       </div>

@@ -48,43 +48,10 @@
     margin-top: 20px;
 }
 
-.comment_box {
-    margin-top: 10px;
-    padding: 10px 15px 15px;
-    height: auto;
-    max-height: 150px;
-    overflow-y: auto;
-    background: #000000 url(../images/comment-bg.jpg) repeat-x;
-}
 
-.comment_box.blur1 {
-    opacity: 0.5;
-}
+/* ------------------------COMMENTS---------------------- */
 
-.comment_box p {
-    margin-bottom: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 4px 5px;
-    word-break: break-all;
-}
 
-.comment_box b {
-    color: aqua;
-}
-
-.comment_box::-webkit-scrollbar {
-    width: 1em;
-}
-
-.comment_box::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-.comment_box::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
-    border-radius: 5px;
-}
 
 .comment-form {
     display: flex;
@@ -112,6 +79,100 @@
 .comment-btn:focus {
     outline: none;
 }
+
+
+
+.comment_box {
+    margin-top: 10px;
+    padding: 10px 15px 15px;
+    height: auto;
+    /* overflow-y: auto; */
+    background: #000000 url(../images/comment-bg.jpg) repeat;
+}
+
+.comment_box.blur1 {
+    opacity: 0.5;
+}
+
+.comment_box b {
+    color: aqua;
+}
+
+.comment_box::-webkit-scrollbar {
+    width: 1em;
+}
+
+.comment_box::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.comment_box::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+}
+.comment-list{
+    width: 100%;
+    min-height: 38px;
+    
+    display: flex;
+}
+.comment-text{
+    flex:1;
+    padding: 0 5px;
+    margin-bottom: 4px;
+    line-height: 30px;
+    word-break: break-all;
+    white-space: pre-line;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.comment-update{
+    position: relative;
+    width: 30px;
+    padding: 4px auto;
+    margin-bottom: 4px;
+    text-align: center;
+    cursor: pointer;
+}
+.update-option{
+    display: none;
+    width: 50px;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: -10px;
+    font-size: 12px;
+    background-color: black;
+}
+.update-option ul{
+    overflow: hidden;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.update-option ul li{
+    background-color: #3d465c;
+}
+.update-option ul li:hover{
+    background-color: #00b93e;
+}
+.comment-update:hover h4{
+    display: none;
+}
+.comment-update:hover .update-option{
+    display: block;
+}
+.edit-form {
+    display: flex;
+    border-radius: 3px;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* ------------------------COMMENTS---------------------- */
+
+
+
 
 @media (max-width:768px) {
     #form-wrapper {

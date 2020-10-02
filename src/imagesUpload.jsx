@@ -69,6 +69,7 @@ function ImagesUpload({ username, childProps, onclose }) {
     const handleChange = (e) => {
        let img = e.target.files[0]
         if (img) {
+            setFilename(md5(img.name))
             setImage(img);
             if(img.type.startsWith('image')){
                 setTypeFile('image')
@@ -76,11 +77,7 @@ function ImagesUpload({ username, childProps, onclose }) {
             else{
                 setTypeFile('video')
             }
-            
         }
-        
-        setFilename(md5(img.name))
-       
     }
 
     const handleUpload = () => {
@@ -95,13 +92,13 @@ function ImagesUpload({ username, childProps, onclose }) {
                 setProgress(progress);
             },
             (error) => {
-                alert(error.message)
+                console.log(error.message)
             },
             () => {
                 //complete function...
                 storage
                     .ref('images')
-                    .child(image.name)
+                    .child(filename)
                     .getDownloadURL()
                     .then(url => {
                         //post image inside db... 
