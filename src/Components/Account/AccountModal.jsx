@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import 'assets/css/account.css'
-import { Button, Avatar, Modal } from '@material-ui/core'
+import { Button, Modal } from '@material-ui/core'
 import firebase from 'firebase/app'
 import { storage, db } from '../../firebase'
-
+import UserAvatar from './UserAvatar'
 
 
 function AccountModal({ user, username }) {
     const [progress, setProgress] = useState('')
     const [modal, setModal] = useState(false)
-    const [userAvatar, setUserAvatar] = useState(null)
     const [accountTab, setAccountTab] = useState(1)
     const [avatar, setAvatar] = useState('')
     //change email, password
@@ -27,20 +26,6 @@ function AccountModal({ user, username }) {
         fontWeight: `800`,
         boxShadow: `0 2px 2px 0px black`
     })
-
-    useEffect(() => {
-        let unsubscribe;
-        if (username) {
-         unsubscribe = db.collection('avatars').doc(username).onSnapshot(snapshot => {
-                setUserAvatar(snapshot.data())
-            });
-            return ()=>{
-                unsubscribe();
-            }
-        } else {
-            setUserAvatar(null)
-        }
-    }, [username]);
 
     const handleOpenModal = () => {
         if (user === username) {
@@ -143,18 +128,18 @@ function AccountModal({ user, username }) {
     const updatesEmail = (
         <form className="up_ava_container one">
             <label > Your current password:</label>
-            <input type="password" placeholder="password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+            <input type="password" placeholder="password..." autoComplete="on" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
             <label > Enter your new email:</label>
-            <input type="email" placeholder="email..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+            <input type="email" placeholder="email..."  value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             <Button style={styling} type="submit" onClick={handleChangeEmail}>Update</Button>
         </form>
     )
     const updatesPassword = (
         <form className="up_ava_container one">
             <label > Your current password:</label>
-            <input type="password" placeholder="password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+            <input type="password" placeholder="password..." autoComplete="on" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
             <label > Enter your new password:</label>
-            <input type="password" placeholder="password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+            <input type="password" placeholder="password..."  value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
             <Button style={styling} type="submit" onClick={handleChangePassword}>Update</Button>
         </form>
     )
@@ -171,19 +156,7 @@ function AccountModal({ user, username }) {
     // End setup select tab of account to edit
     return (
         <>
-            {
-                userAvatar && userAvatar.avatarUrl ?
-                    <Avatar
-                        className="post-avatar"
-                        alt={username}
-                        src={userAvatar.avatarUrl}
-                    /> :
-                    <Avatar
-                        className="post-avatar"
-                        alt={username}
-                        src='/static/images/avatar/1.jpg'
-                    />
-            }
+            <UserAvatar user={user} username={username}/>
             <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
 
             <Modal

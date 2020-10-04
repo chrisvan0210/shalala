@@ -3,7 +3,7 @@ import 'assets/css/post.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core';
-import { db,auth,storage } from '../../firebase';
+import { auth } from '../../firebase';
 
 import { useState, useEffect } from 'react'
 // function rand() {
@@ -163,9 +163,9 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                         <label htmlFor="username" ><b>Username</b></label>
                         <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="email"><b>Email</b></label>
-                        <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <Input type="email"  className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
-                        <Input type="password" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Input type="password" autoComplete="on" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
 
                         <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signUp}>Register</Button>
@@ -185,7 +185,7 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                         <label htmlFor="email"><b>Email</b></label>
                         <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
-                        <Input type="password" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Input type="password" autoComplete="on" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
 
                         <p>By creating an account you agree to our <a href='true'>Terms & Privacy</a>.</p>
                         <Button type="submit" onClick={signIn}>Login</Button>

@@ -1,2 +1,3 @@
 import AccountModal from './AccountModal'
-export {AccountModal}
+import UserAvatar from './UserAvatar'
+export {AccountModal,UserAvatar}

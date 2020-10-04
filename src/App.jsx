@@ -95,12 +95,6 @@ function App() {
 
 
   const observer = useRef()
-  // const lastRef = useCallback(
-  //   node => {
-  //     console.log(node)
-  //   },
-  //   [],
-  // )
   const lastRef = useCallback(node => {
     if (observer.current) observer.current.disconnect() // stop previous ref
     observer.current = new IntersectionObserver(entries => { // take the last current ref

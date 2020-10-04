@@ -1,10 +1,12 @@
-import React, { useState, useEffect, lazy, Suspense, forwardRef } from 'react'
+import React, { useState, useEffect, lazy, Suspense, forwardRef, useCallback } from 'react'
 import 'assets/css/post.css'
 import { db } from '../../firebase'
 import firebase from 'firebase/app';
 import AccountModal from '../Account/AccountModal'
 import { CircularProgress } from '@material-ui/core'
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { UserAvatar } from 'Components'
 
 const Contents = lazy(() => (import('./Contents')))
 
@@ -12,11 +14,25 @@ const Contents = lazy(() => (import('./Contents')))
 const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     const [comments, setComments] = useState([])
     const [upComment, setUpComment] = useState('')
-    const [editComment, setEditComment] = useState(false)
     const [currentComment, setCurrentComment] = useState([])
     const [commmentId, setCommentId] = useState('')
+    const [toggleComment, setToggleComment] = useState(false)
 
 
+
+
+
+    const theRef = useCallback(
+        (node) => {
+            if (node) {
+                node.style.height = "1px";
+                node.style.height = (node.scrollHeight) + "px";
+                console.log("faoihf", node)
+            }
+
+        },
+        [],
+    )
 
     useEffect(() => {
         let unsubscribe;
@@ -24,10 +40,10 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
             unsubscribe = db.collection('posts')
                 .doc(postId)
                 .collection('comments')
-                .orderBy('timestamp', 'desc')
+                .orderBy('timestamp', 'asc')
                 .onSnapshot((snapshot) => {
-                    setComments(snapshot.docs.map((doc) =>(Object.assign(doc.data(), { id: doc.id }))))
-                    
+                    setComments(snapshot.docs.map((doc) => (Object.assign(doc.data(), { id: doc.id }))))
+
                 });
         }
         return () => {
@@ -70,9 +86,33 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
         }
     }
 
+    const onEditCommentBox = (id, text) => {
+        setCommentId(id)
+        if (text) {
+            setCurrentComment(text)
+        }
+    }
+    const handleGetCurrentCm = (e) => {
+        setCurrentComment(e.target.value)
+        e.target.style.height = "1px";
+        e.target.style.height = (e.target.scrollHeight) + "px";
+    }
+
+    const onDeleteComment = (id) => {
+        db.collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(id)
+            .delete()
+    }
+    const toggleViewComment = () => {
+        setToggleComment(!toggleComment)
+    }
+
     const commentInput = (
         <form className="comment-form" >
-            <input type="text"
+            <input
+                type="text"
                 className="comment-input"
                 placeholder="Add a comment..."
                 value={upComment}
@@ -84,48 +124,64 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
                 type="submit"
                 onClick={postComment}
             >
-                Post
+                OK
         </button>
         </form>
     )
-
-    const onEditCommentBox = (id, text) => {
-        setCommentId(id)
-        if(text){
-            setCurrentComment(text)
-        }
-        
-    }
-    const onDeleteComment =(id)=>{
-        db.collection('posts')
-            .doc(postId)
-            .collection('comments')
-            .doc(id)
-            .delete()
-    }
-    const commentUpdate= () => (
-        <form className="edit-form" >
+    const commentUpdate = (
+        <form className="edit-form">
             <textarea
+                ref={theRef}
                 type="text"
                 className="comment-input"
                 placeholder="Add a comment..."
                 value={currentComment}
-                onChange={(e) => setCurrentComment(e.target.value)}
+                onChange={(e) => handleGetCurrentCm(e)}
             ></textarea>
-            <button
-                className="comment-btn"
-                type="submit"
-                onClick={updateComment}
-            >OK</button>
-            <button
-                className="comment-btn"
-                type="submit"
-                onClick={onEditCommentBox}
-            >Cacel</button>
+            <div className="btn-subEdit">
+                <button
+                    className="comment-btn"
+                    type="submit"
+                    onClick={updateComment}
+                >OK</button>
+                <button
+                    className="comment-btn"
+                    type="submit"
+                    onClick={onEditCommentBox}
+                >Cancel</button>
+            </div>
         </form>
     )
-   
-   
+
+    const thecm = comments.slice(comments.length - 2, comments.length)
+
+    const showOnly2 = thecm.map((cm, index) => {
+        return (
+            <div key={index} className="comment-list">
+                <span className="cm-avatar">
+                    <UserAvatar username={cm.username} />
+                </span>
+                <div className="comment-text">
+                    <b >{cm.username}: </b>{cm.text}
+                </div>
+                {
+                    user === cm.username ?
+                        <div className="comment-update">
+                            <h4>...</h4>
+                            <div className="update-option">
+                                <ul>
+                                    <li onClick={() => onEditCommentBox(cm.id, cm.text)}>Edit</li>
+                                    <hr />
+                                    <li onClick={() => onDeleteComment(cm.id)}>Delete</li>
+                                </ul>
+                            </div>
+                        </div> : <div className="dummy-box"></div>
+                }
+
+            </div>
+        )
+    })
+
 
     return (
         <div className="post_wrapper" ref={ref}>
@@ -159,29 +215,57 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
 
             {comments && comments.length !== 0 ?
                 <div className="comment_box" id={postId}>
-                    {comments.map((comment) => (
-                        <div key={comment.id} className="comment-list">
-                            {commmentId !== comment.id?
-                                <p className="comment-text">
-                                    <b >{comment.username}: </b>{comment.text}
-                                </p>
-                                : commentUpdate(comment.id)
-                            }
 
-                            <div className="comment-update">
-                                <h4>...</h4>
-                                
-                                    <div className="update-option">
-                                        <ul>
-                                            <li onClick={() => onEditCommentBox(comment.id, comment.text)}>Edit</li>
-                                            <hr/>
-                                            <li onClick={() => onDeleteComment(comment.id)}>Delete</li>
-                                        </ul>
-                                    </div>
+                    {!toggleComment && comments.length >= 3 ?
+                        <div>
+
+                            {showOnly2}
+                            <div onClick={toggleViewComment} className="btn-toggle-cm">
+                                <span className="show-comment">Show more</span>
+                                <span style={{ verticalAlign: "middle" }}><ExpandMoreIcon /></span>
                             </div>
                         </div>
-                    )
-                    )}
+                        :
+                        <div>
+                            {comments.map((comment) => (
+                                <div key={comment.id}>
+                                    {commmentId !== comment.id ?
+                                        <div className="comment-list">
+                                            <span className="cm-avatar">
+                                                <UserAvatar username={comment.username} />
+                                            </span>
+                                            <div className="comment-text">
+                                                <b >{comment.username}: </b>{comment.text}
+                                            </div>
+                                            {
+                                                user === comment.username ?
+                                                    <div className="comment-update">
+                                                        <h4>...</h4>
+                                                        <div className="update-option">
+                                                            <ul>
+                                                                <li onClick={() => onEditCommentBox(comment.id, comment.text)}>Edit</li>
+                                                                <hr />
+                                                                <li onClick={() => onDeleteComment(comment.id)}>Delete</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div> : <div className="dummy-box"></div>
+                                            }
+
+                                        </div>
+                                        : commentUpdate
+                                    }
+                                </div>
+                            ))}
+                            {
+                                comments.length >= 3 ?
+                                    <div onClick={toggleViewComment} className="btn-toggle-cm">
+                                        <span className="show-comment">Close comments</span>
+                                        <span style={{ verticalAlign: "middle" }}><ExpandLessIcon /></span>
+                                    </div>
+                                    : ''
+                            }
+                        </div>
+                    }
                 </div> :
                 <div className="comment_box blur1">This post dont have comment yet...</div>
             }

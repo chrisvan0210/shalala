@@ -68,13 +68,15 @@
 }
 
 .comment-btn {
-    padding: 5px 15px;
     color: black;
     border: none;
     border-radius: 0;
     background-color: rgb(201, 201, 201);
 }
-
+.comment-btn:hover{
+    color: #000;
+    font-weight: bold;
+}
 .comment-input:focus,
 .comment-btn:focus {
     outline: none;
@@ -114,7 +116,6 @@
 .comment-list{
     width: 100%;
     min-height: 38px;
-    
     display: flex;
 }
 .comment-text{
@@ -135,13 +136,18 @@
     text-align: center;
     cursor: pointer;
 }
+.dummy-box{
+    position: relative;
+    width: 30px;
+    padding: 4px auto;
+    margin-bottom: 4px;
+    text-align: center;
+}
 .update-option{
     display: none;
-    width: 50px;
+    width: 40px;
     height: auto;
     position: relative;
-    top: 0;
-    left: -10px;
     font-size: 12px;
     background-color: black;
 }
@@ -163,12 +169,31 @@
     display: block;
 }
 .edit-form {
+    position: relative;
     display: flex;
     border-radius: 3px;
     overflow: hidden;
     width: 100%;
 }
+.btn-subEdit{
+    display: flex;
+}
 
+
+.show-comment{
+    cursor: pointer;
+}
+.show-comment:hover{
+    text-decoration: underline;
+}
+.btn-toggle-cm{
+    text-align: center;
+}
+.cm-avatar div,
+.cm-avatar img{
+    width: 35px;
+    height: 35px;
+}
 /* ------------------------COMMENTS---------------------- */
 
 
