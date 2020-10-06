@@ -7,6 +7,7 @@ import { CircularProgress } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { UserAvatar } from 'Components'
+import { Keyboard } from '@material-ui/icons';
 
 const Contents = lazy(() => (import('./Contents')))
 
@@ -16,6 +17,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     const [upComment, setUpComment] = useState('')
     const [currentComment, setCurrentComment] = useState([])
     const [commmentId, setCommentId] = useState('')
+    const [openOption, setOpenOption] = useState('')
     const [toggleComment, setToggleComment] = useState(false)
 
 
@@ -27,9 +29,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
             if (node) {
                 node.style.height = "1px";
                 node.style.height = (node.scrollHeight) + "px";
-                console.log("faoihf", node)
             }
-
         },
         [],
     )
@@ -108,6 +108,20 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     const toggleViewComment = () => {
         setToggleComment(!toggleComment)
     }
+
+    const openOptionEdit = (id) => {
+        setOpenOption(id)
+    }
+
+    document.addEventListener('click', useCallback((e) => {
+        if (!e.target.dataset.dot) {
+            setOpenOption('')
+        }
+    }, []))
+    document.addEventListener('keydown', useCallback((e) => {
+        if (e.key === 'Escape')
+            setOpenOption('')
+    }, []))
 
     const commentInput = (
         <form className="comment-form" >
@@ -218,7 +232,6 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
 
                     {!toggleComment && comments.length >= 3 ?
                         <div>
-
                             {showOnly2}
                             <div onClick={toggleViewComment} className="btn-toggle-cm">
                                 <span className="show-comment">Show more</span>
@@ -240,14 +253,20 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
                                             {
                                                 user === comment.username ?
                                                     <div className="comment-update">
-                                                        <h4>...</h4>
-                                                        <div className="update-option">
-                                                            <ul>
-                                                                <li onClick={() => onEditCommentBox(comment.id, comment.text)}>Edit</li>
-                                                                <hr />
-                                                                <li onClick={() => onDeleteComment(comment.id)}>Delete</li>
-                                                            </ul>
-                                                        </div>
+
+                                                        {
+                                                            openOption !== comment.id ?
+                                                                <h4 data-dot={1} onClick={() => openOptionEdit(comment.id)}>...</h4>
+                                                                :
+                                                                <div className="update-option">
+                                                                    <ul>
+                                                                        <li onClick={() => onEditCommentBox(comment.id, comment.text)}>Edit</li>
+                                                                        <hr />
+                                                                        <li onClick={() => onDeleteComment(comment.id)}>Delete</li>
+                                                                    </ul>
+                                                                </div>
+                                                        }
+
                                                     </div> : <div className="dummy-box"></div>
                                             }
 

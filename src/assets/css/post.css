@@ -136,6 +136,13 @@
     text-align: center;
     cursor: pointer;
 }
+.comment-update h4{
+    display: none;
+}
+.comment-update:hover h4{
+    display: block;
+}
+
 .dummy-box{
     position: relative;
     width: 30px;
@@ -144,7 +151,7 @@
     text-align: center;
 }
 .update-option{
-    display: none;
+    display: block;
     width: 40px;
     height: auto;
     position: relative;
@@ -162,12 +169,7 @@
 .update-option ul li:hover{
     background-color: #00b93e;
 }
-.comment-update:hover h4{
-    display: none;
-}
-.comment-update:hover .update-option{
-    display: block;
-}
+
 .edit-form {
     position: relative;
     display: flex;
