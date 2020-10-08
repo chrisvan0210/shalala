@@ -53,8 +53,8 @@ function ImagesUpload({ username, childProps, onclose }) {
     const [filename, setFilename] = useState('')
     const [caption, setCaption] = useState('')
     const [progress, setProgress] = useState('')
-    const [typeFile,setTypeFile] = useState('')
-    
+    const [typeFile, setTypeFile] = useState('')
+
     //  useEffect(()=>{
     //         console.log("checking",typeFile)
     //         if(typeFile.startsWith('video')===true){
@@ -63,18 +63,18 @@ function ImagesUpload({ username, childProps, onclose }) {
     //         else {
     //             console.log("image")
     //         }
-        
+
     // },[typeFile])
 
     const handleChange = (e) => {
-       let img = e.target.files[0]
+        let img = e.target.files[0]
         if (img) {
             setFilename(md5(img.name))
             setImage(img);
-            if(img.type.startsWith('image')){
+            if (img.type.startsWith('image')) {
                 setTypeFile('image')
             }
-            else{
+            else {
                 setTypeFile('video')
             }
         }
@@ -103,11 +103,11 @@ function ImagesUpload({ username, childProps, onclose }) {
                     .then(url => {
                         //post image inside db... 
                         db.collection('posts').add({
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp(), 
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             caption: caption,
                             imageUrl: url,
                             username: username,
-                            type:typeFile
+                            type: typeFile
                         });
 
                         setProgress(0);
@@ -119,7 +119,6 @@ function ImagesUpload({ username, childProps, onclose }) {
             }
         )
     }
-
 
     return (
         <div className={classes.uploadContain}>

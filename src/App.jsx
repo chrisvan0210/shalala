@@ -140,14 +140,12 @@ function App() {
     setPostModal(true)
   }
 
-  const renderPost = (
-    userPosts.map(({ id, post }) => {
-      return (
-        <Post ref={lastRef} key={id} user={username ? username : userRegister} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} type={post.type} />
-      )
-    })
-  )
-
+  const renderPost = useCallback((userPosts.map(({ id, post }) => {
+    return (
+      <Post ref={lastRef} key={id} user={username ? username : userRegister} postId={id} username={post.username} imageUrl={post.imageUrl} caption={post.caption} type={post.type} />
+    )
+  })
+  ), [userPosts, username, userRegister])
 
   return (
     <div className="App_contain">

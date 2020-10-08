@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import 'assets/css/account.css'
 import { Button, Modal } from '@material-ui/core'
 import firebase from 'firebase/app'
@@ -97,13 +97,13 @@ function AccountModal({ user, username }) {
     const handleChangePassword = (e) => {
         e.preventDefault();
         reauthenticate(currentPassword)
-        .then(() => {
-            var user = firebase.auth().currentUser;
-            user.updatePassword(newPassword)
             .then(() => {
-                alert("Password updated!");
+                var user = firebase.auth().currentUser;
+                user.updatePassword(newPassword)
+                    .then(() => {
+                        alert("Password updated!");
+                    }).catch((error) => { alert(error.message); });
             }).catch((error) => { alert(error.message); });
-        }).catch((error) => { alert(error.message); });
         setModal(false)
     }
     //Change Email , Password ---------------
@@ -112,7 +112,7 @@ function AccountModal({ user, username }) {
     const updatesAvatar = (
         <div className="up_ava_container blur">
             <label className="label_input">
-                <input type="file" onChange={handleChange}  />
+                <input type="file" onChange={handleChange} />
             </label>
             {progress ? <progress value={progress} max='100' /> : ''}
 
@@ -130,7 +130,7 @@ function AccountModal({ user, username }) {
             <label > Your current password:</label>
             <input type="password" placeholder="password..." autoComplete="on" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
             <label > Enter your new email:</label>
-            <input type="email" placeholder="email..."  value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+            <input type="email" placeholder="email..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             <Button style={styling} type="submit" onClick={handleChangeEmail}>Update</Button>
         </form>
     )
@@ -139,7 +139,7 @@ function AccountModal({ user, username }) {
             <label > Your current password:</label>
             <input type="password" placeholder="password..." autoComplete="on" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
             <label > Enter your new password:</label>
-            <input type="password" placeholder="password..."  value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+            <input type="password" placeholder="password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
             <Button style={styling} type="submit" onClick={handleChangePassword}>Update</Button>
         </form>
     )
@@ -154,9 +154,11 @@ function AccountModal({ user, username }) {
         default: selectAccountTab = updatesAvatar;
     }
     // End setup select tab of account to edit
+
+
     return (
         <>
-            <UserAvatar user={user} username={username}/>
+            <UserAvatar user={user} username={username} />
             <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
 
             <Modal
@@ -183,4 +185,4 @@ function AccountModal({ user, username }) {
     )
 }
 
-export default AccountModal
+export default memo(AccountModal)

@@ -7,7 +7,6 @@ import { CircularProgress } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { UserAvatar } from 'Components'
-import { Keyboard } from '@material-ui/icons';
 
 const Contents = lazy(() => (import('./Contents')))
 
@@ -23,7 +22,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
 
 
 
-
+    // Auto height for textarea element
     const theRef = useCallback(
         (node) => {
             if (node) {
@@ -51,6 +50,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
         }
 
     }, [postId])
+
 
     const postComment = (event) => {
         event.preventDefault();
@@ -112,7 +112,7 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     const openOptionEdit = (id) => {
         setOpenOption(id)
     }
-
+    // Detected click outside close edit/delete btn
     document.addEventListener('click', useCallback((e) => {
         if (!e.target.dataset.dot) {
             setOpenOption('')
@@ -168,7 +168,6 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
     )
 
     const thecm = comments.slice(comments.length - 2, comments.length)
-
     const showOnly2 = thecm.map((cm, index) => {
         return (
             <div key={index} className="comment-list">
@@ -181,21 +180,23 @@ const Post = ({ user, username, imageUrl, caption, postId, type }, ref) => {
                 {
                     user === cm.username ?
                         <div className="comment-update">
-                            <h4>...</h4>
-                            <div className="update-option">
-                                <ul>
-                                    <li onClick={() => onEditCommentBox(cm.id, cm.text)}>Edit</li>
-                                    <hr />
-                                    <li onClick={() => onDeleteComment(cm.id)}>Delete</li>
-                                </ul>
-                            </div>
+                            {
+                                openOption !== cm.id ?
+                                    <h4 data-dot={1} onClick={() => openOptionEdit(cm.id)}>...</h4>
+                                    :
+                                    <div className="update-option">
+                                        <ul>
+                                            <li onClick={() => onEditCommentBox(cm.id, cm.text)}>Edit</li>
+                                            <hr />
+                                            <li onClick={() => onDeleteComment(cm.id)}>Delete</li>
+                                        </ul>
+                                    </div>
+                            }
                         </div> : <div className="dummy-box"></div>
                 }
-
             </div>
         )
     })
-
 
     return (
         <div className="post_wrapper" ref={ref}>

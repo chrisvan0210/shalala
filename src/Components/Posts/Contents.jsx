@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { memo } from 'react'
 
-function Contents({imageUrl, type}) {
+function Contents({ imageUrl, type }) {
+
     return (
         <>
-        {type === 'image' ?
-        <img className="post-image" src={imageUrl} alt ="" />
-         :
-         <video className="post-image" src={imageUrl} alt ="" autoPlay loop controls />
-         }
-         
+            {type === 'image' ?
+                <img className="post-image" src={imageUrl} alt="" />
+                :
+                <video className="post-image" src={imageUrl} alt="" autoPlay loop controls />
+            }
+
         </>
     )
 }
 
-export default Contents
+export default memo(Contents)

@@ -75,9 +75,9 @@ function SignUpSignInModal({ userProps, userProps2 }) {
     const [user, setUser] = useState(null)
 
 
-   
-     useEffect(() => {
-        const  unsubscribe = auth.onAuthStateChanged((authUser) => {
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
             if (authUser) {
                 // user has logged in...
                 // console.log(authUser)
@@ -88,7 +88,7 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                 setUser(null)
             }
         })
-        return()=>{
+        return () => {
             unsubscribe();
         }
     }, [user, username])
@@ -138,7 +138,6 @@ function SignUpSignInModal({ userProps, userProps2 }) {
     }
 
     return (
-
         <div>
             {
                 user ?
@@ -147,7 +146,6 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                         <Button type="button" onClick={() => setSignUpModal(true)} className={classes.btnSign}>Sign Up</Button>
                         <Button type="button" onClick={() => setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
                     </div>
-
             }
 
             <Modal
@@ -163,7 +161,7 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                         <label htmlFor="username" ><b>Username</b></label>
                         <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="email"><b>Email</b></label>
-                        <Input type="email"  className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
                         <Input type="password" autoComplete="on" className={classes.signInput} value={password} onChange={(e) => setPassword(e.target.value)} />
 
