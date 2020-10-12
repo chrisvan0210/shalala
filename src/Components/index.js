@@ -1,12 +1,13 @@
-import Post from './Posts';
+import Posts from './Posts';
 import SignUpSignInModal from './Modal'
-import {AccountModal,UserAvatar} from './Account'
+import Header from './Header'
+import {Account} from './Account'
 import Footer from './Footer'
 
 export {
-    Post,
+    Posts,
     SignUpSignInModal,
-    AccountModal,
-    UserAvatar,
+    Header,
+    Account,
     Footer
 }

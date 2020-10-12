@@ -5,10 +5,8 @@ import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core';
 import { auth } from '../../firebase';
 
-import { useState, useEffect } from 'react'
-// function rand() {
-//   return Math.round(Math.random() * 20) - 10;
-// }
+import { useState,memo } from 'react'
+
 
 function getModalStyle() {
     //   const top = 50 + rand();
@@ -63,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignUpSignInModal({ userProps, userProps2 }) {
+function SignUpSignInModal({userLogin, userProps2 }) {
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
@@ -71,47 +69,21 @@ function SignUpSignInModal({ userProps, userProps2 }) {
     const [signInModal, setSignInModal] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [userRegister, setUserRegister] = useState('')
     const [username, setUsername] = useState('')
-    const [user, setUser] = useState(null)
 
-
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                // user has logged in...
-                // console.log(authUser)
-                setUser(authUser)
-            }
-            else {
-                // user has logged out...
-                setUser(null)
-            }
-        })
-        return () => {
-            unsubscribe();
-        }
-    }, [user, username])
-
-    // const handleOpen = () => {
-    //     SignUpModal(true);
-    // };
-
-    // const handleClose = () => {
-    //     SignUpModal(false);
-    // };
+    // const  userLogin  = useSignIn()
 
     const signUp = (e) => {
         e.preventDefault();
-        userProps2(username)
         auth.createUserWithEmailAndPassword(email, password)
             .then((authUser) => {
                 return authUser.user.updateProfile({
-                    displayName: username,
+                    displayName: userRegister,
                 })
             })
             .catch((error) => alert('Email or password are not correct...'));
-
+        userProps2(userRegister)
         setSignUpModal(false);
     }
 
@@ -119,10 +91,10 @@ function SignUpSignInModal({ userProps, userProps2 }) {
         e.preventDefault();
         auth.signInWithEmailAndPassword(email, password)
             .then((authUser) => {
-                setUser(authUser);
+                setUsername(authUser);
             })
             .catch(error => alert('Email or password are not correct...'))
-
+        userProps2(username)
         setSignInModal(false);
     }
 
@@ -132,16 +104,13 @@ function SignUpSignInModal({ userProps, userProps2 }) {
     const logout = () => {
         auth.signOut()
         setUsername('')
-        setUser(null)
-        userProps(user)
-        userProps2('')
     }
 
     return (
         <div>
             {
-                user ?
-                    <Button type="button" onClick={() => logout()} className={classes.btnSign}>Logout</Button> :
+                userLogin ?
+                    <Button type="button" onClick={logout} className={classes.btnSign}>Logout</Button> :
                     <div >
                         <Button type="button" onClick={() => setSignUpModal(true)} className={classes.btnSign}>Sign Up</Button>
                         <Button type="button" onClick={() => setSignInModal(true)} className={classes.btnSign}>Sign In</Button>
@@ -159,7 +128,7 @@ function SignUpSignInModal({ userProps, userProps2 }) {
                         <h2>SignUp</h2>
 
                         <label htmlFor="username" ><b>Username</b></label>
-                        <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUserRegister(e.target.value)} />
                         <label htmlFor="email"><b>Email</b></label>
                         <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>
@@ -193,4 +162,4 @@ function SignUpSignInModal({ userProps, userProps2 }) {
         </div>
     );
 }
-export default SignUpSignInModal;
+export default memo(SignUpSignInModal);

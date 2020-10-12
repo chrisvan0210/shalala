@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-function ImagesUpload({ username, childProps, onclose }) {
+function ImagesUpload({ username, onclose }) {
     const classes = useStyles();
     const [image, setImage] = useState('')
     const [filename, setFilename] = useState('')

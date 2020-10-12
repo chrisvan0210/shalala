@@ -1,12 +1,14 @@
-import React, { useState, memo } from 'react'
+import React, { useState,useEffect, memo } from 'react'
 import 'assets/css/account.css'
 import { Button, Modal } from '@material-ui/core'
 import firebase from 'firebase/app'
 import { storage, db } from '../../firebase'
-import UserAvatar from './UserAvatar'
+import { Avatar } from '@material-ui/core'
 
 
-function AccountModal({ user, username }) {
+import useSignIn from '../../hooks/useSignIn'
+
+function Account({ username }) {
     const [progress, setProgress] = useState('')
     const [modal, setModal] = useState(false)
     const [accountTab, setAccountTab] = useState(1)
@@ -15,7 +17,9 @@ function AccountModal({ user, username }) {
     const [currentPassword, setCurrentPassword] = useState('')
     const [newEmail, setNewEmail] = useState('')
     const [newPassword, setNewPassword] = useState('')
+    const [userAvatar, setUserAvatar] = useState(null)
 
+    const { userLogin } = useSignIn()
 
     const styling = ({
         margin: `35px auto 5px`,
@@ -27,8 +31,25 @@ function AccountModal({ user, username }) {
         boxShadow: `0 2px 2px 0px black`
     })
 
+
+    useEffect(() => {
+        let unsubscribe;
+        if (username) {
+            unsubscribe = db.collection('avatars').doc(username).onSnapshot(snapshot => {
+                setUserAvatar(snapshot.data())
+            });
+            return () => {
+                unsubscribe();
+            }
+        } else {
+            setUserAvatar(null)
+        }
+    }, [username]);
+
+
+
     const handleOpenModal = () => {
-        if (user === username) {
+        if (username === userLogin) {
             setModal(true)
         }
         else {
@@ -155,10 +176,22 @@ function AccountModal({ user, username }) {
     }
     // End setup select tab of account to edit
 
-
     return (
         <>
-            <UserAvatar user={user} username={username} />
+            {/* <UserAvatar  username={username} /> */}
+            {
+                userAvatar && userAvatar.avatarUrl ?
+                    <Avatar
+                        className="post-avatar"
+                        alt={username}
+                        src={userAvatar.avatarUrl}
+                    /> :
+                    <Avatar
+                        className="post-avatar"
+                        alt={username}
+                        src='/static/images/avatar/1.jpg'
+                    />
+            }
             <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
 
             <Modal
@@ -185,4 +218,4 @@ function AccountModal({ user, username }) {
     )
 }
 
-export default memo(AccountModal)
+export default memo(Account)
