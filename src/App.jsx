@@ -29,7 +29,7 @@ function App() {
 
           {/* Instagram profile clone */}
           <InstagramEmbed
-            url='https://www.instagram.com/p/CC_G8XasBJd/?utm_source=ig_web_copy_link'
+            url='https://www.instagram.com/p/CO9GxwaJBZp/'
             maxWidth={320}
             style={{ zIndex: '10', height: 'fit-content' }}
             hideCaption={false}

@@ -14,6 +14,7 @@ const Post = ({ userLogin, postUser, imageUrl, caption, postId, type }, ref) => 
 
             {/* username */}
             <div className="post_username">
+                <Account username={postUser} isAvatar={true}/>
                 <Account username={postUser} />
             </div>
 

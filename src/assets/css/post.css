@@ -3,7 +3,11 @@
     align-items: center;
     margin-bottom: 20px;
 }
-
+.post-username {
+    cursor: pointer;
+    white-space: pre;
+    margin-left: 5px;
+}
 .post-username:hover {
     text-decoration: underline;
 }
@@ -39,10 +43,7 @@
     box-shadow: inset 0px 0px 20px 0px rgba(255, 255, 255, 1);
 }
 
-.post-username {
-    margin-left: 10px;
-    cursor: pointer;
-}
+
 
 .post-captions {
     margin-top: 20px;

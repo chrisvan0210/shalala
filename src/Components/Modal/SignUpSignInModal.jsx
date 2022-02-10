@@ -128,7 +128,7 @@ function SignUpSignInModal({userLogin, userProps2 }) {
                         <h2>SignUp</h2>
 
                         <label htmlFor="username" ><b>Username</b></label>
-                        <Input type="text" className={classes.signInput} value={username} onChange={(e) => setUserRegister(e.target.value)} />
+                        <Input type="text" className={classes.signInput} value={userRegister} onChange={(e) => setUserRegister(e.target.value)} />
                         <label htmlFor="email"><b>Email</b></label>
                         <Input type="email" className={classes.signInput} value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="password"><b>Password</b></label>

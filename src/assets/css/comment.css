@@ -35,7 +35,7 @@
 
 .comment_box {
     margin-top: 10px;
-    padding: 10px 15px 15px;
+    padding: 10px 0 15px 7px;
     height: auto;
     /* overflow-y: auto; */
     background: #000000 url(../images/comment-bg.jpg) repeat;
@@ -66,17 +66,28 @@
     width: 100%;
     min-height: 38px;
     display: flex;
+    margin-bottom: 10px;
 }
+.comment-list .post-username{
+    margin-left: 0;
+}
+
 .comment-text{
+    
+    max-width: fit-content;
     flex: 1;
-    display: flex;
-    padding: 0 5px;
+    /* display: flex; */
+    padding: 4px 15px;
+    border-radius: 15px;
     margin-bottom: 4px;
-    line-height: 30px;
+    margin-left: 5px;
     word-break: break-all;
     white-space: pre-line;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+p.cmt-contents{
+    font-family:Arial, Helvetica, sans-serif;
+    line-height: 22px;
 }
 
 .comment-update{

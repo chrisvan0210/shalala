@@ -8,7 +8,7 @@ import { Avatar } from '@material-ui/core'
 
 import useSignIn from '../../hooks/useSignIn'
 
-function Account({ username }) {
+function Account({ username ,isAvatar}) {
     const [progress, setProgress] = useState('')
     const [modal, setModal] = useState(false)
     const [accountTab, setAccountTab] = useState(1)
@@ -180,19 +180,28 @@ function Account({ username }) {
         <>
             {/* <UserAvatar  username={username} /> */}
             {
-                userAvatar && userAvatar.avatarUrl ?
-                    <Avatar
-                        className="post-avatar"
-                        alt={username}
-                        src={userAvatar.avatarUrl}
-                    /> :
-                    <Avatar
-                        className="post-avatar"
-                        alt={username}
-                        src='/static/images/avatar/1.jpg'
-                    />
+                isAvatar === true? 
+                <>
+                {
+                    userAvatar && userAvatar.avatarUrl ?
+                        <Avatar
+                            className="post-avatar"
+                            alt={username}
+                            src={userAvatar.avatarUrl}
+                            onClick={handleOpenModal}
+                        /> :
+                        <Avatar
+                            className="post-avatar"
+                            alt={username}
+                            src='/static/images/avatar/1.jpg'
+                        />
+                }
+                </>:
+                 <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
             }
-            <h3 className="post-username" onClick={handleOpenModal}>{username}</h3>
+           
+            
+           
 
             <Modal
                 open={modal}

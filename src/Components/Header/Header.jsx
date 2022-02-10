@@ -44,7 +44,7 @@ const postFail = {
     boxShadow: `0 0 5px 5px #940303`,
     border: `solid 2px red`,
 }
-function Header({userLogin}) {
+function Header({ userLogin }) {
     const [userRegister, setUserRegister] = useState('')
     const [postModal, setPostModal] = useState(false)
     const classes = useStyles();
@@ -59,7 +59,8 @@ function Header({userLogin}) {
         <div className="page_header">
             <img className="insta-logo" src={nancyLogo} alt="" />
             <div style={{ display: 'flex', alignItems: "center" }} className="header_username">
-                <Account username={userLogin} allowOpen={true}/>
+                <Account username={userLogin} isAvatar={true} />
+                <Account username={userLogin} allowOpen={true} />
             </div>
 
             <div className="header-right">

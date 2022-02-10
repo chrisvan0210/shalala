@@ -1,5 +1,6 @@
-import React, { useState, useCallback ,memo} from 'react'
+import React, { useState, useCallback, memo } from 'react'
 import { Account } from 'Components'
+import { Avatar } from '@material-ui/core'
 import { db } from '../../firebase'
 
 
@@ -72,7 +73,7 @@ function Comment({ comment, postId, userLogin }) {
         if (e.key === 'Escape')
             setOpenOption('')
     }, []))
-  
+
     const commentUpdate = (
         <form className="edit-form">
             <textarea
@@ -97,7 +98,7 @@ function Comment({ comment, postId, userLogin }) {
             </div>
         </form>
     )
-   
+
     return (
         <>
             {comment && comment.length !== 0 ?
@@ -105,13 +106,14 @@ function Comment({ comment, postId, userLogin }) {
                     <>
                         {commentId !== comment.id ?
                             <div className="comment-list">
+                                <Account username={comment.username} isAvatar= {true}/>
                                 <div className="comment-text">
-                                    <b>
+                                    <div>
                                         <span className="cm-avatar">
-                                            <Account username={comment.username} />:
+                                            <b><Account username={comment.username} isAvatar= {false}/></b>
                                         </span>
-                                    </b>
-                                    <p>
+                                    </div>
+                                    <p className='cmt-contents'>
                                         {comment.text}
                                     </p>
                                 </div>
