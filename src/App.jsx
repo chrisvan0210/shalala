@@ -27,7 +27,7 @@ function App() {
             {/* {renderPost} */}
           </div>
 
-          {/* Instagram profile clone */}
+          {/* Instagram profile clone Instagram profile clone */}
           <InstagramEmbed
             url='https://www.instagram.com/p/CO9GxwaJBZp/'
             maxWidth={320}
