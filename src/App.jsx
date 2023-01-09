@@ -22,7 +22,7 @@ function App() {
         <Header userLogin={userLogin}/>
 
         <div className="mainPage-wrapper">
-          <div className="App_post_contain">{/* post here */}
+          <div className="App_post_contain">{/* post here change 2*/}
             <Posts userLogin={userLogin}/>
             {/* {renderPost} */}
           </div>
