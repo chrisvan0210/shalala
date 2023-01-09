@@ -17,7 +17,7 @@ function App() {
       <img src={starBucks} alt="" style={{ display: "none" }} />
 
       <div>
-        {/* header */}
+        {/** header top */}
 
         <Header userLogin={userLogin}/>
 
