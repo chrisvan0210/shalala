@@ -1,5 +1,5 @@
 import React from 'react';
-import 'assets/css/post.css'
+import '../../../src/assets/css/post.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core';

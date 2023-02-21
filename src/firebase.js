@@ -1,10 +1,10 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';        // for authentication
-import 'firebase/storage';     // for storage
-import 'firebase/database';    // for realtime database
-import 'firebase/firestore';   // for cloud firestore
-import 'firebase/messaging';   // for cloud messaging
-import 'firebase/functions';   // for cloud functions
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';        // for authentication
+import 'firebase/compat/storage';     // for storage
+import 'firebase/compat/database';    // for realtime database
+import 'firebase/compat/firestore';   // for cloud firestore
+import 'firebase/compat/messaging';   // for cloud messaging
+import 'firebase/compat/functions';   // for cloud functions
 // TODO: Replace the following with your app's Firebase project configuration
   const firebaseApp = {
     apiKey: "AIzaSyCLrpZg6c2ivuz4gACid0ciIteuMJWFajE",
@@ -26,3 +26,4 @@ import 'firebase/functions';   // for cloud functions
   
 
   export {db,auth,storage};
+  export default firebase;

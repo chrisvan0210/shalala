@@ -1,10 +1,10 @@
 import React from 'react';
-import 'assets/css/app.css';
+import './assets/css/app.css';
 import ParticlesData from './ParticlesData'
 
-import { Posts, Footer, Header } from 'Components'
+import { Posts, Footer, Header } from './Components'
 import InstagramEmbed from 'react-instagram-embed'
-import starBucks from 'assets/images/starbucks.png'
+import starBucks from './assets/images/starbucks.png'
 
 import useSignIn from './hooks/useSignIn'
 

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, forwardRef } from 'react'
-import 'assets/css/post.css'
+import '../../../src/assets/css/post.css'
 import { CircularProgress } from '@material-ui/core'
-import { Account } from 'Components'
+import { Account } from '../../Components'
 import Comments from './Comments'
 const Contents = lazy(() => (import('./Contents')))
 

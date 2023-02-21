@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react'
-import 'assets/css/comment.css'
+import '../../../src/assets/css/comment.css'
 import { db } from '../../firebase'
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import Comment from './Comment'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';

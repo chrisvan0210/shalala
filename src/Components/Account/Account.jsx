@@ -1,7 +1,7 @@
 import React, { useState,useEffect, memo } from 'react'
-import 'assets/css/account.css'
+import '../../../src/assets/css/account.css'
 import { Button, Modal } from '@material-ui/core'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 import { storage, db } from '../../firebase'
 import { Avatar } from '@material-ui/core'
 
