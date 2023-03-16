@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Account, SignUpSignInModal } from '../../Components'
 import { Button, Modal } from '@material-ui/core'
 import ImagesUpload from '../../imagesUpload'
-import nancyLogo from '../../../src/assets/images/nancy-logo.gif'
+import nancyLogo from '../../../src/assets/images/nancylogo.gif'
 import { makeStyles } from '@material-ui/core/styles'
 
 

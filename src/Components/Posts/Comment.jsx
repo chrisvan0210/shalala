@@ -1,6 +1,5 @@
 import React, { useState, useCallback, memo } from 'react'
 import { Account } from '../../Components'
-import { Avatar } from '@material-ui/core'
 import { db } from '../../firebase'
 
 
